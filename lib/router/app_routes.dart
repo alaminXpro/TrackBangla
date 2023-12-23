@@ -3,6 +3,7 @@ import 'package:trackbangla/view/login/login.dart';
 import 'package:trackbangla/view/reset_password/reset_password.dart';
 import 'package:trackbangla/view/signup/signup.dart';
 import 'package:get/get.dart';
+import 'package:trackbangla/widgets/WelcomePage.dart';
 
 class AppRoutes {
   static String login = '/login';
@@ -12,6 +13,8 @@ class AppRoutes {
   static String reset = '/reset';
 
   static String forgot = '/forgot';
+
+  static String onBoarding = '/onBoarding';
 
   static List<GetPage> pages = [
     GetPage(
@@ -30,5 +33,9 @@ class AppRoutes {
       name: reset,
       page: () => const ResetPassword(),
     ),
+    GetPage(
+      name: onBoarding,
+      page: () => const WelcomePage(),
+    )
   ];
 }

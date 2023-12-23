@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'Track Bangla',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      initialRoute: AppRoutes.login,
+      initialRoute: AppRoutes.onBoarding,
       getPages: AppRoutes.pages,
       initialBinding: InitialBindings(),
     );

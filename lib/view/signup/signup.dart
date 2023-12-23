@@ -61,7 +61,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 MyTextField(
                   controller: controller.nameController,
-                  hintText: "name",
+                  hintText: "Full Name",
                   keyboardType: TextInputType.name,
                   width: width * 0.8,
                   icon: const Icon(FontAwesomeIcons.user, size: 17),
@@ -71,7 +71,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 MyTextField(
                   controller: controller.emailController,
-                  hintText: "email address",
+                  hintText: "Email address",
                   keyboardType: TextInputType.emailAddress,
                   width: width * 0.8,
                   icon: const Icon(FontAwesomeIcons.at, size: 17),
@@ -80,8 +80,29 @@ class _SignUpState extends State<SignUp> {
                   height: Responsive.verticalSize(15),
                 ),
                 MyTextField(
-                  hintText: "password",
+                  controller: controller.phoneController,
+                  hintText: "Phone Number",
+                  keyboardType: TextInputType.phone,
+                  width: width * 0.8,
+                  icon: const Icon(FontAwesomeIcons.phone, size: 17),
+                ),
+                SizedBox(
+                  height: Responsive.verticalSize(15),
+                ),
+                MyTextField(
+                  hintText: "Password",
                   controller: controller.passwordController,
+                  obscureText: true,
+                  keyboardType: TextInputType.visiblePassword,
+                  width: width * 0.8,
+                  icon: const Icon(Icons.lock_outline_rounded, size: 19),
+                ),
+                SizedBox(
+                  height: Responsive.verticalSize(15),
+                ),
+                MyTextField(
+                  hintText: "Confirm Password",
+                  controller: controller.confirmPasswordController,
                   obscureText: true,
                   keyboardType: TextInputType.visiblePassword,
                   width: width * 0.8,
@@ -123,7 +144,14 @@ class _SignUpState extends State<SignUp> {
                 GetBuilder<SignUpController>(builder: (cont) {
                   return MyButton(
                     showCircularBar: cont.isLoading.value,
-                    onTap: () => cont.register(),
+                    onTap: () {
+                      if(controller.passwordController.text.trim() != controller.confirmPasswordController.text.trim()){
+                        Get.snackbar("Error", "Password and Confirm Password doesn't match");
+                      }
+                      else{
+                        cont.register();
+                      }
+                    },
                     text: "Register",
                   );
                 }),
