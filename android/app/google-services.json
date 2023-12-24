@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "776664567368",
+    "project_id": "trackbangla-faef2",
+    "storage_bucket": "trackbangla-faef2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776664567368:android:55b918dd493320ef9a127d",
+        "android_client_info": {
+          "package_name": "com.example.trackbangla"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHvidbno8-bcts8xSCaDSFrio26KJTLY4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
