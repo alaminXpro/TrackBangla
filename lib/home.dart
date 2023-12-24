@@ -71,26 +71,45 @@ class _HomeState extends State<Home> {
 
           if (snapshot.connectionState == ConnectionState.done) {
             Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  children: [const Text("name: "), Text(_user.displayName!)],
-                ),
-                Row(
-                  children: [const Text("email: "), Text(_user.email!)],
-                ),
-                Row(
-                  children: [
-                    const Text("is email verified: "),
-                    Text(_user.emailVerified.toString())
-                  ],
-                ),
-                Row(
-                  children: [const Text("phone: "), Text(data['phone'])],
-                ),
-              ],
+            return Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      const Text("name: ", style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        height: 1.5,
+                      ),),
+                      Text(_user.displayName!)
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text(
+                        "email: ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            height: 1.5,
+                          ),
+                      ),
+                      Text(_user.email!)
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text("is email verified: "),
+                      Text(_user.emailVerified.toString())
+                    ],
+                  ),
+                  Row(
+                    children: [const Text("phone: "), Text(data['phone'])],
+                  ),
+                ],
+              ),
             );
           }
 
