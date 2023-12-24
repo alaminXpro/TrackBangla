@@ -34,7 +34,7 @@ class MyDrawer extends StatelessWidget {
 
           //LOGOUT LIST TITLE
           MyListTitle(
-              icon: Icons.person, text: 'L O G O U T', onTap: onSignOut),
+              icon: Icons.logout, text: 'L O G O U T', onTap: onSignOut),
         ],
       ),
     );
