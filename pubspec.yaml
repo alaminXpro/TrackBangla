@@ -18,6 +18,7 @@ dependencies:
 
   animated_bottom_navigation_bar: ^1.3.0
   cached_network_image: ^3.3.1
+  
   connectivity: ^3.0.6
   cupertino_icons: ^1.0.6
   dots_indicator: ^3.0.0
@@ -39,6 +40,20 @@ dependencies:
   geolocator: ^10.1.0
   google_maps_flutter: ^2.5.1
   html: ^0.15.4
+  html_unescape: ^2.0.0
+  http: ^1.1.2
+  image_picker: ^1.0.6
+  intl: ^0.18.1
+  launch_review: ^3.0.1
+  line_icons: ^2.0.3
+  package_info_plus: ^5.0.1
+  provider: ^6.1.1
+  share_plus: ^7.2.1
+  shared_preferences: ^2.2.2
+  skeleton_text: ^3.0.1
+  sliding_up_panel: ^2.0.0+1
+  toast: ^0.3.0
+  url_launcher: ^6.2.2
   google_sign_in: ^6.2.1
   cloud_firestore: ^4.13.6
 
@@ -67,28 +82,19 @@ flutter:
     - assets/
     - assets/images/
 
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware
+  
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
 
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: Muli
+      fonts:
+        - asset: assets/fonts/Muli-Bold.ttf
+          weight: 800
+        - asset: assets/fonts/Muli-SemiBold.ttf
+          weight: 700
+        - asset: assets/fonts/Muli-Medium.ttf
+          weight: 600
+        - asset: assets/fonts/Muli-Regular.ttf
+          weight: 500
