@@ -1,15 +1,13 @@
-
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Config {
   final String appName = 'TrackBangla';
   final String mapAPIKey = 'AIzaSyA-fE7BtlehhXxsO_sWnHpayW**********';
   final String countryName = 'Bangladesh';
-  final String splashIcon = 'assets/images/splash.png';
-  final String supportEmail = 'mrblab24@gmail.com';
+  final String splashIcon = 'assets/images/tb.png';
+  final String supportEmail = 'trackbangla.com@gmail.com';
   final String privacyPolicyUrl = 'https://www.freeprivacypolicy.com/pri************';
-  final String ourWebsiteUrl = 'https://codecanyon.net/user/mrblab24/portfolio';
+  final String ourWebsiteUrl = 'https://trackbangla.com';
   final String iOSAppId = '000000000';
 
   final String specialState1 = 'Sylhet';
