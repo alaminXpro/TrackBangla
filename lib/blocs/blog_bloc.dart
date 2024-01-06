@@ -19,7 +19,7 @@ class BlogBloc extends ChangeNotifier {
   String get popupSelection => _popSelection;
 
 
-  final List<DocumentSnapshot> _snap = List<DocumentSnapshot>();
+  List<DocumentSnapshot> _snap = List<DocumentSnapshot>.empty();
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 
@@ -99,7 +99,7 @@ class BlogBloc extends ChangeNotifier {
     _isLoading = true;
     _snap.clear();
     _data.clear();
-    _lastVisible = null;
+    _lastVisible = (null as DocumentSnapshot<Object?>);
     getData(mounted, orderBy);
     notifyListeners();
   }
