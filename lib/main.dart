@@ -5,7 +5,6 @@ import 'package:trackbangla/blocs/internet_bloc.dart';
 import 'package:trackbangla/blocs/sign_in_bloc.dart';
 import 'package:trackbangla/core/utils/initial_bindings.dart';
 import 'package:trackbangla/firebase_options.dart';
-import 'package:trackbangla/pages/splash.dart';
 import 'package:trackbangla/router/app_routes.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
