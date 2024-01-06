@@ -27,14 +27,15 @@ class LoginController extends GetxController {
         await api.login(emailController.text, passwordController.text);
       if (user != null) {
         if (user.emailVerified) {
-          Get.snackbar('Success', 'Logged in successfully!');
           sb.setSignIn();
           Get.to(DonePage());
         } else {
-          Get.snackbar('Error', 'Please verify your email before logging in.');
+          Get.snackbar('Error', 'Please verify your email before logging in.',
+              snackPosition: SnackPosition.BOTTOM);
         }
       } else {
-        Get.snackbar('Error', 'Email or password are incorrect');
+        Get.snackbar('Error', 'Email or password are incorrect',
+            snackPosition: SnackPosition.BOTTOM);
       }
     } catch (error) {
       // Handle any errors that occurred while creating the user or updating their profile.
