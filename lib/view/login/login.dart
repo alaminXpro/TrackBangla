@@ -1,5 +1,11 @@
+import 'package:provider/provider.dart';
+import 'package:trackbangla/blocs/internet_bloc.dart';
+import 'package:trackbangla/blocs/sign_in_bloc.dart';
 import 'package:trackbangla/core/constants/colors.dart';
+import 'package:trackbangla/core/utils/next_screen.dart';
 import 'package:trackbangla/core/utils/responsive_size.dart';
+import 'package:trackbangla/core/utils/snacbar.dart';
+import 'package:trackbangla/pages/done.dart';
 import 'package:trackbangla/router/app_routes.dart';
 import 'package:trackbangla/view/login/controller/login_controller.dart';
 import 'package:trackbangla/widgets/text_field.dart';
@@ -20,8 +26,57 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final LoginController controller = Get.find();
 
+  final LoginController controller = Get.find();
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+  bool googleSignInStarted = false;
+  handleGoogleSignIn() async{
+    final sb = context.read<SignInBloc>();
+    final ib = context.read<InternetBloc>();
+    setState(() =>googleSignInStarted = true);
+    await ib.checkInternet();
+    if(ib.hasInternet == false){
+      openSnacbar(scaffoldKey, 'check your internet connection!'.tr);
+      
+    }else{
+      await sb.signInWithGoogle().then((_){
+        if(sb.hasError == true){
+          openSnacbar(scaffoldKey, 'something is wrong. please try again.'.tr);
+          setState(() =>googleSignInStarted = false);
+
+        }else {
+          sb.checkUserExists().then((value){
+          if(value == true){
+            sb.getUserDatafromFirebase(sb.uid)
+            .then((value) => sb.saveDataToSP()
+            .then((value) => sb.guestSignout())
+            .then((value) => sb.setSignIn()
+            .then((value){
+              setState(() =>googleSignInStarted = false);
+              afterSignIn();
+            })));
+          } else{
+            sb.getJoiningDate()
+            .then((value) => sb.saveToFirebase()
+            .then((value) => sb.increaseUserCount())
+            .then((value) => sb.saveDataToSP()
+            .then((value) => sb.guestSignout()
+            .then((value) => sb.setSignIn()
+            .then((value){
+              setState(() => googleSignInStarted = false);
+              afterSignIn();
+            })))));
+          }
+            });
+          
+        }
+      });
+    }
+  }
+
+  afterSignIn (){
+      nextScreen(context, DonePage());
+  }
   @override
   Widget build(BuildContext context) {
     double width = Get.width;
@@ -84,11 +139,39 @@ class _LoginState extends State<Login> {
                 ),
               ),
             ),
-            MyOutlinedButton(
-                onTap: () => controller.loginWithGoogle(),
-                child: Image.asset(
-                  "assets/images/google.png",
-                )),
+            ElevatedButton(
+              onPressed: () => handleGoogleSignIn(),
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
+              ),
+              child: googleSignInStarted == false
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/google.png',
+                          height: 50,
+                        ),
+                        // SizedBox(
+                        //   width: 10,
+                        // ),
+                        // Text(
+                        //   'Sign In with Google',
+                        //   style: TextStyle(
+                        //       fontSize: 16,
+                        //       fontWeight: FontWeight.w600,
+                        //       color: Theme.of(context).primaryColor),
+                        // )
+                      ],
+                    )
+                  : Center(
+                      child: CircularProgressIndicator(
+                          backgroundColor: Colors.white),
+                    ),
+            ),
             SizedBox(
               height: Responsive.verticalSize(20),
             ),

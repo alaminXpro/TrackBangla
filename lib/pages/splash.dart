@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trackbangla/home.dart';
 import 'package:trackbangla/widgets/WelcomePage.dart';
 import '/blocs/sign_in_bloc.dart';
 import '/core/config/config.dart';
@@ -36,7 +37,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin{
     if(sb.isSignedIn == true){ 
       sb.getDataFromSp();
     }
-    nextScreenReplace(context, WelcomePage()); //Homepage hobe
+    nextScreenReplace(context, Home()); //Homepage hobe
   }
 
 

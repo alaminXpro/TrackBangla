@@ -1,5 +1,6 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:trackbangla/home.dart';
 import 'package:trackbangla/widgets/WelcomePage.dart';
 //import 'package:travel_hour/pages/intro.dart';
 import '/core/utils/next_screen.dart';
@@ -17,7 +18,7 @@ class _DonePageState extends State<DonePage> {
   @override
   void initState() {
     Future.delayed(Duration(milliseconds: 2000))
-    .then((value) => nextScreenCloseOthers(context, WelcomePage()));
+    .then((value) => nextScreenCloseOthers(context, Home()));
     super.initState();
   }
 

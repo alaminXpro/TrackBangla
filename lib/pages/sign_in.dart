@@ -1,6 +1,7 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trackbangla/router/app_routes.dart';
+import 'package:trackbangla/widgets/button.dart';
 import '/blocs/internet_bloc.dart';
 import '/blocs/sign_in_bloc.dart';
 import '/core/config/config.dart';
@@ -23,8 +24,6 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
 
   bool googleSignInStarted = false;
-  bool facebookSignInStarted = false;
-  bool appleSignInStarted = false;
 
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -82,12 +81,7 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   afterSignIn (){
-    if(widget.tag == null){
       nextScreen(context, DonePage());
-    }else{
-      Navigator.pop(context);
-    }
-    
   }
 
 
@@ -111,6 +105,7 @@ class _SignInPageState extends State<SignInPage> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
+                        color: Colors.black,
                       )).tr()),
 
           IconButton(
@@ -178,6 +173,11 @@ class _SignInPageState extends State<SignInPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  MyButton(
+                    text: "Sign in with Email",
+                    onTap: () => Navigator.pushNamed(context, AppRoutes.login),
+                  ),
+                  SizedBox(height: 20),
                   Container(
                     height: 45,
                     width: MediaQuery.of(context).size.width * 0.80,
@@ -207,7 +207,7 @@ class _SignInPageState extends State<SignInPage> {
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.white),
+                                        color: Theme.of(context).primaryColor),
                                   )
                                 ],
                               )

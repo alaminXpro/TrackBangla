@@ -61,7 +61,25 @@ class SignInBloc extends ChangeNotifier {
   String _packageName = '';
   String get packageName => _packageName;
 
+  void setName(String name) {
+    _name = name;
+  }
 
+  void setEmail(String email) {
+    _email = email;
+  }
+
+  void setImageUrl(String imageUrl) {
+    _imageUrl = imageUrl;
+  }
+
+  void setUid(String uid) {
+    _uid = uid;
+  }
+
+  void setSignInProvider(String signInProvider) {
+    _signInProvider = signInProvider;
+  }
 
   void initPackageInfo () async{
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -126,6 +144,7 @@ class SignInBloc extends ChangeNotifier {
       'name': _name,
       'email': _email,
       'uid': _uid,
+      'sign_in_provider': _signInProvider,
       'image url': _imageUrl,
       'joining date': _joiningDate,
       'loved blogs': [],
@@ -188,7 +207,7 @@ class SignInBloc extends ChangeNotifier {
         _imageUrl = documentSnapshot['image url'];
         _uid = documentSnapshot['uid'];
         _joiningDate = documentSnapshot['joining date'];
-        _signInProvider = documentSnapshot['sign_in_provider'];
+        //_signInProvider = documentSnapshot['sign_in_provider']!;
       }
     });
     notifyListeners();
