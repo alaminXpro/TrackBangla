@@ -56,68 +56,7 @@ class _HomeState extends State<Home> {
         onProfileTap: goToProfilePage,
         onSignOut: signOut,
       ),
-<<<<<<< HEAD
-      body: FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance.collection('users').doc(_user.uid).get(),
-        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return Text("Something went wrong");
-          }
-
-          if (snapshot.hasData && !snapshot.data!.exists) {
-            return Text("Document does not exist");
-          }
-
-          if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-            return Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      const Text("name: ", style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        height: 1.5,
-                      ),),
-                      Text(_user.displayName!)
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Text(
-                        "email: ",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            height: 1.5,
-                          ),
-                      ),
-                      Text(_user.email!)
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Text("is email verified: "),
-                      Text(_user.emailVerified.toString())
-                    ],
-                  ),
-                  Row(
-                    children: [const Text("phone: "), Text(data['phone'])],
-                  ),
-                ],
-              ),
-            );
-          }
-
-          return Text("Loading");
-        },
-      ),
-=======
       body: Center(child: Text('Welcome Prince!')),
->>>>>>> alaminxpro
     );
   }
 }
