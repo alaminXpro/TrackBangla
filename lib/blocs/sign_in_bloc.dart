@@ -183,15 +183,15 @@ class SignInBloc extends ChangeNotifier {
 
 
   Future getDataFromSp () async {
-    final SharedPreferences sp = await SharedPreferences.getInstance();
-    _name = sp.getString('name')!;
-    _email = sp.getString('email')!;
-    _imageUrl = sp.getString('image_url')!;
-    _uid = sp.getString('uid')!;
-    _joiningDate = sp.getString('joining_date')!;
-    _signInProvider = sp.getString('sign_in_provider')!;
-    notifyListeners();
-  }
+  final SharedPreferences sp = await SharedPreferences.getInstance();
+  _name = sp.getString('name') ?? '';
+  _email = sp.getString('email') ?? '';
+  _imageUrl = sp.getString('image_url') ?? '';
+  _uid = sp.getString('uid') ?? '';
+  _joiningDate = sp.getString('joining_date') ?? '';
+  _signInProvider = sp.getString('sign_in_provider') ?? '';
+  notifyListeners();
+}
 
 
 
