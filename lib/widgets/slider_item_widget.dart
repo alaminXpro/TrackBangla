@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:trackbangla/core/utils/next_screen.dart';
+import 'package:trackbangla/home.dart';
 import 'package:trackbangla/router/app_routes.dart';
 import 'app_large_text.dart';
 import 'app_text.dart';
@@ -42,14 +45,32 @@ class SliderItemWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 420),
-                ResponsiveButton(
-                  onPressed: () {
-                    Get.toNamed(AppRoutes.login);
-                  },
-                  imageUrl: 'https://i.pinimg.com/564x/6d/64/2e/6d642e54172df5cd3f1cb88fa73278fb.jpg',
-                  size: 20.0,
-                  color: Colors.white,
-                )
+                Container(
+            height: 45,
+            width: 30 * 0.70,
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColor,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25)),
+              ),
+              child: const Text(
+                'get started',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600),
+              ).tr(),
+              onPressed: () {
+                nextScreenReplace(context, Home());
+              },
+            ),
+          )
               ],
             ),
             Column(

@@ -4,7 +4,6 @@ import 'package:trackbangla/view/login/login.dart';
 import 'package:trackbangla/view/reset_password/reset_password.dart';
 import 'package:trackbangla/view/signup/signup.dart';
 import 'package:get/get.dart';
-import 'package:trackbangla/widgets/WelcomePage.dart';
 
 class AppRoutes {
   static String login = '/login';
