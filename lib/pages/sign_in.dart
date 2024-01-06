@@ -97,11 +97,11 @@ class _SignInPageState extends State<SignInPage> {
       key: scaffoldKey,
       appBar: AppBar(
         actions: [
-          widget.tag != null
+          widget.tag == 'onBoarding'
               ? Container()
               : ElevatedButton(
                   onPressed: () => handleSkip(),
-                  child: Text('skip',
+                  child: Text('Guest',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,

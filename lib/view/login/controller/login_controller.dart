@@ -1,3 +1,4 @@
+import 'package:trackbangla/blocs/sign_in_bloc.dart';
 import 'package:trackbangla/core/utils/next_screen.dart';
 import 'package:trackbangla/home.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class LoginController extends GetxController {
   TextEditingController emailController = TextEditingController();
 
   RxBool isLoading = false.obs;
+  final sb = Get.find<SignInBloc>();
 
   Future<void> login() async {
     isLoading.value = true;
@@ -26,6 +28,7 @@ class LoginController extends GetxController {
       if (user != null) {
         if (user.emailVerified) {
           Get.snackbar('Success', 'Logged in successfully!');
+          sb.setSignIn();
           Get.to(DonePage());
         } else {
           Get.snackbar('Error', 'Please verify your email before logging in.');
