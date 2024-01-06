@@ -1,8 +1,11 @@
+import 'package:trackbangla/blocs/sign_in_bloc.dart';
+import 'package:trackbangla/core/utils/next_screen.dart';
 import 'package:trackbangla/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../data/api/api.dart';
+import '../../../pages/done.dart';
 
 class LoginController extends GetxController {
   final ApiClient api;
@@ -14,6 +17,7 @@ class LoginController extends GetxController {
   TextEditingController emailController = TextEditingController();
 
   RxBool isLoading = false.obs;
+  final sb = Get.find<SignInBloc>();
 
   Future<void> login() async {
     isLoading.value = true;
@@ -24,7 +28,8 @@ class LoginController extends GetxController {
       if (user != null) {
         if (user.emailVerified) {
           Get.snackbar('Success', 'Logged in successfully!');
-          Get.to(Home(user: user));
+          sb.setSignIn();
+          Get.to(DonePage());
         } else {
           Get.snackbar('Error', 'Please verify your email before logging in.');
         }
@@ -38,19 +43,5 @@ class LoginController extends GetxController {
     isLoading.value = false;
     update();
   }
-
-  Future<void> loginWithGoogle() async {
-    try {
-      final user = await api.loginWithGoogle();
-      if (user != null) {
-        Get.snackbar('Success', 'Logged in successfully!');
-        Get.to(Home(user: user));
-      } else {
-        Get.snackbar('error', 'something went wrong');
-      }
-    } catch (error) {
-      // Handle any errors that occurred while creating the user or updating their profile.
-      Get.snackbar('error', 'something went wrong');
-    }
-  }
+  
 }

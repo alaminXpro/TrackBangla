@@ -1,3 +1,4 @@
+import 'package:trackbangla/pages/splash.dart';
 import 'package:trackbangla/view/forgot_password/forgot.dart';
 import 'package:trackbangla/view/login/login.dart';
 import 'package:trackbangla/view/reset_password/reset_password.dart';
@@ -35,7 +36,7 @@ class AppRoutes {
     ),
     GetPage(
       name: onBoarding,
-      page: () => const WelcomePage(),
+      page: () => const SplashPage(),
     )
   ];
 }

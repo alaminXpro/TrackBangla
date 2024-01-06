@@ -1,6 +1,12 @@
 //import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:provider/provider.dart';
+import 'package:trackbangla/blocs/internet_bloc.dart';
+import 'package:trackbangla/blocs/sign_in_bloc.dart';
 import 'package:trackbangla/core/constants/colors.dart';
+import 'package:trackbangla/core/utils/next_screen.dart';
 import 'package:trackbangla/core/utils/responsive_size.dart';
+import 'package:trackbangla/core/utils/snacbar.dart';
+import 'package:trackbangla/pages/done.dart';
 import 'package:trackbangla/router/app_routes.dart';
 import 'package:trackbangla/view/signup/controller/signup_controller.dart';
 import 'package:trackbangla/widgets/text_field.dart';
@@ -21,6 +27,56 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+  bool googleSignInStarted = false;
+  handleGoogleSignIn() async{
+    final sb = context.read<SignInBloc>();
+    final ib = context.read<InternetBloc>();
+    setState(() =>googleSignInStarted = true);
+    await ib.checkInternet();
+    if(ib.hasInternet == false){
+      openSnacbar(scaffoldKey, 'check your internet connection!'.tr);
+      
+    }else{
+      await sb.signInWithGoogle().then((_){
+        if(sb.hasError == true){
+          openSnacbar(scaffoldKey, 'something is wrong. please try again.'.tr);
+          setState(() =>googleSignInStarted = false);
+
+        }else {
+          sb.checkUserExists().then((value){
+          if(value == true){
+            sb.getUserDatafromFirebase(sb.uid)
+            .then((value) => sb.saveDataToSP()
+            .then((value) => sb.guestSignout())
+            .then((value) => sb.setSignIn()
+            .then((value){
+              setState(() =>googleSignInStarted = false);
+              afterSignIn();
+            })));
+          } else{
+            sb.getJoiningDate()
+            .then((value) => sb.saveToFirebase()
+            .then((value) => sb.increaseUserCount())
+            .then((value) => sb.saveDataToSP()
+            .then((value) => sb.guestSignout()
+            .then((value) => sb.setSignIn()
+            .then((value){
+              setState(() => googleSignInStarted = false);
+              afterSignIn();
+            })))));
+          }
+            });
+          
+        }
+      });
+    }
+  }
+
+  afterSignIn (){
+      nextScreen(context, DonePage());
+  }  
   @override
   Widget build(BuildContext context) {
     double width = Get.width;
@@ -75,16 +131,6 @@ class _SignUpState extends State<SignUp> {
                   keyboardType: TextInputType.emailAddress,
                   width: width * 0.8,
                   icon: const Icon(FontAwesomeIcons.at, size: 17),
-                ),
-                SizedBox(
-                  height: Responsive.verticalSize(15),
-                ),
-                MyTextField(
-                  controller: controller.phoneController,
-                  hintText: "Phone Number",
-                  keyboardType: TextInputType.phone,
-                  width: width * 0.8,
-                  icon: const Icon(FontAwesomeIcons.phone, size: 17),
                 ),
                 SizedBox(
                   height: Responsive.verticalSize(15),
@@ -167,6 +213,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 MyOutlinedButton(
+                    onTap: () => handleGoogleSignIn(),
                     child: Image.asset(
                   "assets/images/google.png",
                 )),
