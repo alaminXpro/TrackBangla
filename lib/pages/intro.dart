@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:trackbangla/home.dart';
+import 'package:trackbangla/pages/home.dart';
 import '/core/config/config.dart';
 import '/core/utils/next_screen.dart';
 //import '/pages/home.dart';
@@ -113,7 +114,7 @@ class _IntroPageState extends State<IntroPage> {
                     fontWeight: FontWeight.w600),
               ).tr(),
               onPressed: () {
-                nextScreenReplace(context, Home());
+                nextScreenReplace(context, HomePage());
               },
             ),
           ),
