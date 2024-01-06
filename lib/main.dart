@@ -16,14 +16,14 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    EasyLocalization(
-      supportedLocales: [Locale('en'), Locale('es')],
-      path: 'assets/translations',
-      fallbackLocale: Locale('en'),
-      startLocale: Locale('en'),
-      useOnlyLangCode: true,
-      child: MyApp(),
-    )
+      EasyLocalization(
+        supportedLocales: [Locale('en'), Locale('es')],
+        path: 'assets/translations',
+        fallbackLocale: Locale('en'),
+        startLocale: Locale('en'),
+        useOnlyLangCode: true,
+        child: MyApp(),
+      )
   );
 }
 
