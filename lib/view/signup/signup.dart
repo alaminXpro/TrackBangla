@@ -27,56 +27,51 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-
   var scaffoldKey = GlobalKey<ScaffoldState>();
   bool googleSignInStarted = false;
-  handleGoogleSignIn() async{
+  handleGoogleSignIn() async {
     final sb = context.read<SignInBloc>();
     final ib = context.read<InternetBloc>();
-    setState(() =>googleSignInStarted = true);
+    setState(() => googleSignInStarted = true);
     await ib.checkInternet();
-    if(ib.hasInternet == false){
-      openSnacbar(scaffoldKey, 'check your internet connection!'.tr);
-      
-    }else{
-      await sb.signInWithGoogle().then((_){
-        if(sb.hasError == true){
-          openSnacbar(scaffoldKey, 'something is wrong. please try again.'.tr);
-          setState(() =>googleSignInStarted = false);
-
-        }else {
-          sb.checkUserExists().then((value){
-          if(value == true){
-            sb.getUserDatafromFirebase(sb.uid)
-            .then((value) => sb.saveDataToSP()
-            .then((value) => sb.guestSignout())
-            .then((value) => sb.setSignIn()
-            .then((value){
-              setState(() =>googleSignInStarted = false);
-              afterSignIn();
-            })));
-          } else{
-            sb.getJoiningDate()
-            .then((value) => sb.saveToFirebase()
-            .then((value) => sb.increaseUserCount())
-            .then((value) => sb.saveDataToSP()
-            .then((value) => sb.guestSignout()
-            .then((value) => sb.setSignIn()
-            .then((value){
-              setState(() => googleSignInStarted = false);
-              afterSignIn();
-            })))));
-          }
-            });
-          
+    if (ib.hasInternet == false) {
+      Get.snackbar("Error", 'check your internet connection!'.tr);
+    } else {
+      await sb.signInWithGoogle().then((_) {
+        if (sb.hasError == true) {
+          Get.snackbar("Error", 'something is wrong. please try again.'.tr);
+          setState(() => googleSignInStarted = false);
+        } else {
+          sb.checkUserExists().then((value) {
+            if (value == true) {
+              sb.getUserDatafromFirebase(sb.uid).then((value) => sb
+                  .saveDataToSP()
+                  .then((value) => sb.guestSignout())
+                  .then((value) => sb.setSignIn().then((value) {
+                        setState(() => googleSignInStarted = false);
+                        afterSignIn();
+                      })));
+            } else {
+              sb.getJoiningDate().then((value) => sb
+                  .saveToFirebase()
+                  .then((value) => sb.increaseUserCount())
+                  .then((value) => sb.saveDataToSP().then((value) => sb
+                      .guestSignout()
+                      .then((value) => sb.setSignIn().then((value) {
+                            setState(() => googleSignInStarted = false);
+                            afterSignIn();
+                          })))));
+            }
+          });
         }
       });
     }
   }
 
-  afterSignIn (){
-      nextScreen(context, DonePage());
-  }  
+  afterSignIn() {
+    nextScreen(context, DonePage());
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = Get.width;
@@ -191,10 +186,23 @@ class _SignUpState extends State<SignUp> {
                   return MyButton(
                     showCircularBar: cont.isLoading.value,
                     onTap: () {
-                      if(controller.passwordController.text.trim() != controller.confirmPasswordController.text.trim()){
-                        Get.snackbar("Error", "Password and Confirm Password doesn't match");
+                      if (cont.nameController.text.isEmpty) {
+                        Get.snackbar("Error", "Name can't be empty".tr);
+                      } else if (cont.emailController.text.isEmpty) {
+                        Get.snackbar("Error", "Email can't be empty".tr);
+                      } else if (cont.passwordController.text.isEmpty) {
+                        Get.snackbar("Error", "Password can't be empty".tr);
+                      } 
+                      else if(!cont.emailController.text.contains('@')){
+                        Get.snackbar("Error", "Invalid Email".tr);
                       }
-                      else{
+                      else if (cont.confirmPasswordController.text.isEmpty) {
+                        Get.snackbar(
+                            "Error", "Confirm Password can't be empty".tr);
+                      } else if (cont.passwordController.text !=
+                          cont.confirmPasswordController.text) {
+                        Get.snackbar("Error", "Password doesn't match".tr);
+                      } else {
                         cont.register();
                       }
                     },
@@ -215,8 +223,8 @@ class _SignUpState extends State<SignUp> {
                 MyOutlinedButton(
                     onTap: () => handleGoogleSignIn(),
                     child: Image.asset(
-                  "assets/images/google.png",
-                )),
+                      "assets/images/google.png",
+                    )),
                 SizedBox(
                   height: Responsive.verticalSize(15),
                 ),

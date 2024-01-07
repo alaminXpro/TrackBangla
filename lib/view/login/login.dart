@@ -4,13 +4,10 @@ import 'package:trackbangla/blocs/sign_in_bloc.dart';
 import 'package:trackbangla/core/constants/colors.dart';
 import 'package:trackbangla/core/utils/next_screen.dart';
 import 'package:trackbangla/core/utils/responsive_size.dart';
-import 'package:trackbangla/core/utils/snacbar.dart';
 import 'package:trackbangla/pages/done.dart';
 import 'package:trackbangla/router/app_routes.dart';
-import 'package:trackbangla/view/login/controller/login_controller.dart';
 import 'package:trackbangla/widgets/text_field.dart';
 import 'package:trackbangla/widgets/button.dart';
-import 'package:trackbangla/widgets/outlined_button.dart';
 import 'package:trackbangla/widgets/title_text.dart';
 import 'package:trackbangla/widgets/top_image.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +23,11 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  var scaffoldKey = GlobalKey<ScaffoldState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   bool googleSignInStarted = false;
+  bool verify = true;
+  bool isLoading = false;
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -37,11 +37,11 @@ class _LoginState extends State<Login> {
     setState(() => googleSignInStarted = true);
     await ib.checkInternet();
     if (ib.hasInternet == false) {
-      openSnacbar(scaffoldKey, 'check your internet connection!'.tr);
+      Get.snackbar("Error", 'check your internet connection!'.tr);
     } else {
       await sb.signInWithGoogle().then((_) {
         if (sb.hasError == true) {
-          openSnacbar(scaffoldKey, 'something is wrong. please try again.'.tr);
+          Get.snackbar("Error", 'something is wrong. please try again.'.tr);
           setState(() => googleSignInStarted = false);
         } else {
           sb.checkUserExists().then((value) {
@@ -71,6 +71,9 @@ class _LoginState extends State<Login> {
   }
 
   handleEmailSignIn() async {
+    setState(() {
+      isLoading = true;
+    });
     final sb = context.read<SignInBloc>();
     final ib = context.read<InternetBloc>();
 
@@ -79,12 +82,16 @@ class _LoginState extends State<Login> {
 
     await ib.checkInternet();
     if (ib.hasInternet == false) {
-      openSnacbar(scaffoldKey, 'Check your internet connection!');
+      Get.snackbar("Error", 'Check your internet connection!');
     } else {
       final user = await sb.signInWithEmail(email, password);
       if (user == null) {
-        openSnacbar(scaffoldKey, 'Something is wrong. Please try again.');
-      } else {
+        Get.snackbar("Error", 'Something is wrong. Please try again.');
+      } 
+      else if(!sb.isEmailVerified && verify){
+        Get.snackbar("Error", 'Please verify your email first.');
+      }
+      else {
         sb.checkUserExists().then((value) {
           if (value == true) {
             sb
@@ -97,6 +104,9 @@ class _LoginState extends State<Login> {
         });
       }
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   afterSignIn() {
@@ -149,9 +159,9 @@ class _LoginState extends State<Login> {
             ),
             //Login button
             MyButton(
-              showCircularBar: false,
+              showCircularBar: isLoading,
               onTap: () => handleEmailSignIn(),
-              text: "Login with email",
+              text: "Login",
             ),
             Padding(
               padding: EdgeInsets.only(

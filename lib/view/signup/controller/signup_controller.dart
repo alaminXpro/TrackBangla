@@ -41,12 +41,11 @@ class SignUpController extends GetxController {
           await sb.setEmail(emailController.text);
           await sb.setUid(user.uid);
           await sb.setSignInProvider('email');
-          await sb.setImageUrl('https://lh3.googleusercontent.com/a/ACg8ocJXk4BL9mYJGiAWNYLZBTvT21cFmGbAZKx8cF9Z23t7=s96-c');
+          await sb.setImageUrl('https://firebasestorage.googleapis.com/v0/b/trackbangla-faef2.appspot.com/o/avater.png?alt=media&token=e944abc2-08f2-4034-9756-3ffa9299b438');
 
           await sb.getJoiningDate().then((value) => sb
               .saveToFirebase()
               .then((value) => sb.increaseUserCount()));
-
           Get.snackbar('Success', 'User registered successfully!');
           Get.toNamed(AppRoutes.login);
         }
