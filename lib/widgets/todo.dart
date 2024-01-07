@@ -81,7 +81,9 @@ class TodoWidget extends StatelessWidget {
                           ).tr(),
 
                         ])),
-                onTap: () => nextScreen(context, GuidePage(d: placeData)),
+                onTap: () {
+                  //nextScreen(context, GuidePage(d: placeData))
+                },
               ),
               InkWell(
                 child: Container(
@@ -119,7 +121,9 @@ class TodoWidget extends StatelessWidget {
                                 fontSize: 15),
                           ).tr(),
                         ])),
-                onTap: () => nextScreen(context, HotelPage(placeData: placeData,)),
+                onTap: () {
+                   //nextScreen(context, HotelPage(placeData: placeData,))
+                },
               ),
               InkWell(
                 child: Container(
@@ -158,7 +162,9 @@ class TodoWidget extends StatelessWidget {
                           ).tr(),
 
                         ])),
-                onTap: () => nextScreen(context, RestaurantPage(placeData: placeData,)),
+                onTap: () {
+                  //nextScreen(context, RestaurantPage(placeData: placeData,))
+                },
               ),
               InkWell(
                 child: Container(
@@ -196,7 +202,9 @@ class TodoWidget extends StatelessWidget {
                                 fontSize: 15),
                           ).tr(),
                         ])),
-                onTap: () => nextScreen(context, CommentsPage(collectionName: 'places', timestamp: placeData.timestamp,)),
+                onTap: () {
+                  //nextScreen(context, CommentsPage(collectionName: 'places', timestamp: placeData.timestamp,))
+                },
               ),
             ],
           ),

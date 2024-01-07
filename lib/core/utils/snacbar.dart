@@ -1,9 +1,8 @@
 
-
 import 'package:flutter/material.dart';
 
-void openSnacbar(_scaffoldKey, snacMessage){
-    _scaffoldKey.currentState.showSnackBar(
+void openSnacbar(scaffoldKey, snacMessage){
+    scaffoldKey.currentState.showSnackBar(
       SnackBar(
     content: Container(
       alignment: Alignment.centerLeft,

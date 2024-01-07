@@ -6,8 +6,8 @@ import '/models/blog.dart';
 
 class BlogBloc extends ChangeNotifier {
 
-  late DocumentSnapshot _lastVisible;
-  DocumentSnapshot get lastVisible => _lastVisible;
+  DocumentSnapshot? _lastVisible;
+  DocumentSnapshot? get lastVisible => _lastVisible;
 
   bool _isLoading = true;
   bool get isLoading => _isLoading;
@@ -19,7 +19,7 @@ class BlogBloc extends ChangeNotifier {
   String get popupSelection => _popSelection;
 
 
-  List<DocumentSnapshot> _snap = List<DocumentSnapshot>.empty();
+  final List<DocumentSnapshot> _snap = List<DocumentSnapshot>.empty();
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 
@@ -36,7 +36,7 @@ class BlogBloc extends ChangeNotifier {
     rawData = await firestore
         .collection('blogs')
         .orderBy(orderBy, descending: true)
-        .startAfter([_lastVisible[orderBy]])
+        .startAfter([_lastVisible![orderBy]])
         .limit(5)
         .get();
 
@@ -84,7 +84,7 @@ class BlogBloc extends ChangeNotifier {
     _isLoading = true;
     _snap.clear();
     _data.clear();
-    _lastVisible = null as DocumentSnapshot<Object?>;
+    _lastVisible = null;
     getData(mounted, orderBy);
     notifyListeners();
   }
