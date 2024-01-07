@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 //import '/blocs/notification_bloc.dart';
 import '/blocs/sign_in_bloc.dart';
 import '/core/config/config.dart';
-//import '/pages/edit_profile.dart';
+import '/pages/edit_profile.dart';
 //import '/pages/notifications.dart';
 import '/pages/sign_in.dart';
 import '/core/utils/next_screen.dart';
@@ -327,7 +327,7 @@ class UserUI extends StatelessWidget {
             ),
             trailing: Icon(Icons.chevron_right, size: 20,),
             onTap: (){
-               //nextScreen(context, EditProfile(name: sb.name, imageUrl: sb.imageUrl));
+               nextScreen(context, EditProfile(name: sb.name, imageUrl: sb.imageUrl));
             }
           ),
 
