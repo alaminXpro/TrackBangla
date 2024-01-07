@@ -31,7 +31,7 @@ class SignInBloc extends ChangeNotifier {
   bool get hasError => _hasError;
 
   bool isEmailVerified = false;
-  
+
   late String _errorCode;
   String get errorCode => _errorCode;
 
@@ -151,6 +151,16 @@ class SignInBloc extends ChangeNotifier {
       _errorCode = e.toString();
       notifyListeners();
       return null;
+    }
+  }
+
+  Future<void> updatePassword(String newPassword) async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      await user.updatePassword(newPassword);
+    } else {
+      throw Exception('No user is currently signed in.');
     }
   }
 
