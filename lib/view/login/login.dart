@@ -25,6 +25,9 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   bool googleSignInStarted = false;
+  bool verify = true;
+  bool isLoading = false;
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -68,6 +71,9 @@ class _LoginState extends State<Login> {
   }
 
   handleEmailSignIn() async {
+    setState(() {
+      isLoading = true;
+    });
     final sb = context.read<SignInBloc>();
     final ib = context.read<InternetBloc>();
 
@@ -81,7 +87,11 @@ class _LoginState extends State<Login> {
       final user = await sb.signInWithEmail(email, password);
       if (user == null) {
         Get.snackbar("Error", 'Something is wrong. Please try again.');
-      } else {
+      } 
+      else if(!sb.isEmailVerified && verify){
+        Get.snackbar("Error", 'Please verify your email first.');
+      }
+      else {
         sb.checkUserExists().then((value) {
           if (value == true) {
             sb
@@ -94,6 +104,9 @@ class _LoginState extends State<Login> {
         });
       }
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   afterSignIn() {
@@ -146,9 +159,9 @@ class _LoginState extends State<Login> {
             ),
             //Login button
             MyButton(
-              showCircularBar: false,
+              showCircularBar: isLoading,
               onTap: () => handleEmailSignIn(),
-              text: "Login with email",
+              text: "Login",
             ),
             Padding(
               padding: EdgeInsets.only(

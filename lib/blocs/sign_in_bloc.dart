@@ -30,6 +30,8 @@ class SignInBloc extends ChangeNotifier {
   bool _hasError = false;
   bool get hasError => _hasError;
 
+  bool isEmailVerified = false;
+  
   late String _errorCode;
   String get errorCode => _errorCode;
 
@@ -136,6 +138,7 @@ class SignInBloc extends ChangeNotifier {
         _uid = user.uid;
         _signInProvider = 'email';
         _hasError = false;
+        isEmailVerified = user.emailVerified;
         notifyListeners();
         return user;
       } else {
