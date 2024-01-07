@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // import '/pages/blogs.dart';
 // import '/pages/bookmark.dart';
 // import '/pages/explore.dart';
-// import '/pages/profile.dart';
+import '/pages/profile.dart';
 // import '/pages/states.dart';
 import 'package:provider/provider.dart';
 
@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
           // StatesPage(),
           // BlogPage(),
           // BookmarkPage(),
-          // ProfilePage(),
+          ProfilePage(),
         ],
       ),
     );

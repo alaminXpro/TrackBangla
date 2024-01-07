@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trackbangla/router/app_routes.dart';
+import 'package:trackbangla/view/login/login.dart';
 import 'package:trackbangla/widgets/button.dart';
 import '/blocs/internet_bloc.dart';
 import '/blocs/sign_in_bloc.dart';
@@ -175,7 +176,7 @@ class _SignInPageState extends State<SignInPage> {
                 children: [
                   MyButton(
                     text: "Sign in with Email",
-                    onTap: () => Navigator.pushNamed(context, AppRoutes.login),
+                    onTap: () => nextScreen(context, Login()),
                   ),
                   SizedBox(height: 20),
                   Container(

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:trackbangla/blocs/internet_bloc.dart';
 import 'package:trackbangla/blocs/sign_in_bloc.dart';
 import 'package:trackbangla/data/api/api.dart';
 import 'package:trackbangla/view/forgot_password/controller/forgot_password_controller.dart';
@@ -11,9 +12,10 @@ class InitialBindings extends Bindings {
   void dependencies() {
     Get.lazyPut(() => ApiClient());
     Get.lazyPut(() => SignUpController(Get.find()));
-    Get.lazyPut(() => LoginController(Get.find()));
+    //Get.lazyPut(() => LoginController(Get.find()));
     Get.lazyPut(() => ForgotPasswordController(Get.find()));
     Get.lazyPut(() => ChangePasswordController(Get.find()));
     Get.lazyPut(() => SignInBloc());
+    Get.lazyPut(() => InternetBloc());
   }
 }

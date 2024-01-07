@@ -1,5 +1,7 @@
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:trackbangla/blocs/internet_bloc.dart';
 import 'package:trackbangla/blocs/sign_in_bloc.dart';
 import 'package:trackbangla/router/app_routes.dart';
 import '../../../data/api/api.dart';
@@ -22,37 +24,39 @@ class SignUpController extends GetxController {
   RxBool isLoading = false.obs;
 
   Future register() async {
-  isLoading.value = true;
-  update();
-  try {
-    final user = await api.registerUser(
-        nameController.text, emailController.text, passwordController.text);
-    if (user != null) {
-      final sb = Get.find<SignInBloc>();
-      //set user data to SignInBloc
-      sb.setName(nameController.text);
-      sb.setEmail(emailController.text);
-      sb.setUid(user.uid);
-      sb.setSignInProvider('email');
-      sb.setImageUrl('https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png');
+    isLoading.value = true;
+    update();
+    try {
+      final ib = Get.find<InternetBloc>();
+      await ib.checkInternet();
+      if (ib.hasInternet == false) {
+        Get.snackbar("Error", 'check your internet connection!'.tr);
+      } else {
+        final user = await api.registerUser(
+            nameController.text, emailController.text, passwordController.text);
+        if (user != null) {
+          final sb = Get.find<SignInBloc>();
+          //set user data to SignInBloc
+          await sb.setName(nameController.text);
+          await sb.setEmail(emailController.text);
+          await sb.setUid(user.uid);
+          await sb.setSignInProvider('email');
+          await sb.setImageUrl('https://lh3.googleusercontent.com/a/ACg8ocJXk4BL9mYJGiAWNYLZBTvT21cFmGbAZKx8cF9Z23t7=s96-c');
 
-      sb.getJoiningDate()
-            .then((value) => sb.saveToFirebase()
-            .then((value) => sb.increaseUserCount())
-            .then((value) => sb.saveDataToSP()
-            .then((value) => sb.guestSignout()
-            .then((value) => sb.setSignIn()
-            ))));
+          await sb.getJoiningDate().then((value) => sb
+              .saveToFirebase()
+              .then((value) => sb.increaseUserCount()));
 
-      Get.snackbar('Success', 'User registered successfully!');
-      Get.toNamed(AppRoutes.login);
+          Get.snackbar('Success', 'User registered successfully!');
+          Get.toNamed(AppRoutes.login);
+        }
+      }
+    } on EmailAlreadyInUseException {
+      Get.snackbar('Error', 'User already exists, please login.');
+    } catch (error) {
+      Get.snackbar('Error', 'An unknown error occurred.');
     }
-  } on EmailAlreadyInUseException {
-    Get.snackbar('Error', 'User already exists, please login.');
-  } catch (error) {
-    Get.snackbar('Error', 'An unknown error occurred.');
+    isLoading.value = false;
+    update();
   }
-  isLoading.value = false;
-  update();
-}
 }
