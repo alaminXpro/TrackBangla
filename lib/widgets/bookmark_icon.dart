@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 
 
 
-  class BuildLoveIcon extends StatelessWidget {
+  class BuildBookmarkIcon extends StatelessWidget {
     final String collectionName;
     final String uid;
     final String timestamp;
 
-    const BuildLoveIcon({
+    const BuildBookmarkIcon({
       Key? key, 
       required this.collectionName, 
       required this.uid,
@@ -22,19 +22,19 @@ import 'package:provider/provider.dart';
     @override
     Widget build(BuildContext context) {
       final sb = context.watch<SignInBloc>();
-      String _type = collectionName == 'places' ? 'loved places' : 'loved blogs';
-      if(sb.isSignedIn == false) return LoveIcon().normal;
+      String _type = collectionName == 'places' ? 'bookmarked places' : 'bookmarked blogs';
+      if(sb.isSignedIn == false) return BookmarkIcon().normal;
       return StreamBuilder(
       stream: FirebaseFirestore.instance.collection('users').doc(uid).snapshots(),
       builder: (context, snap) {
-        if (uid == null) return LoveIcon().normal;
-        if (!snap.hasData) return LoveIcon().normal;
+        if (uid == null) return BookmarkIcon().normal;
+        if (!snap.hasData) return BookmarkIcon().normal;
         List d = snap.data![_type];
 
         if (d.contains(timestamp)) {
-          return LoveIcon().bold;
+          return BookmarkIcon().bold;
         } else {
-          return LoveIcon().normal;
+          return BookmarkIcon().normal;
         }
       },
     );

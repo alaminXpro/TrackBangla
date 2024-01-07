@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 //import '/blocs/notification_bloc.dart';
 // import '/pages/blogs.dart';
 // import '/pages/bookmark.dart';
-// import '/pages/explore.dart';
+import '/pages/explore.dart';
 import '/pages/profile.dart';
-// import '/pages/states.dart';
+import '/pages/states.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
         physics: NeverScrollableScrollPhysics(),  
         children: <Widget>[
           // Explore(),
-          // StatesPage(),
+          StatesPage(),
           // BlogPage(),
           // BookmarkPage(),
           ProfilePage(),
