@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:trackbangla/router/app_routes.dart';
 import 'package:trackbangla/view/login/login.dart';
 import 'package:trackbangla/widgets/button.dart';
 import '/blocs/internet_bloc.dart';
@@ -8,7 +8,6 @@ import '/blocs/sign_in_bloc.dart';
 import '/core/config/config.dart';
 import '/pages/done.dart';
 import '/core/utils/next_screen.dart';
-import '/core/utils/snacbar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '/widgets/language.dart';
 
@@ -17,8 +16,9 @@ import '/widgets/language.dart';
 class SignInPage extends StatefulWidget {
 
   final String tag;
-  SignInPage({Key? key, required this.tag}) : super(key: key);
+  const SignInPage({super.key, required this.tag});
 
+  @override
   _SignInPageState createState() => _SignInPageState();
 }
 
@@ -26,7 +26,7 @@ class _SignInPageState extends State<SignInPage> {
 
   bool googleSignInStarted = false;
 
-  var scaffoldKey = GlobalKey<ScaffoldState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
 
   handleSkip (){
@@ -43,12 +43,12 @@ class _SignInPageState extends State<SignInPage> {
     setState(() =>googleSignInStarted = true);
     await ib.checkInternet();
     if(ib.hasInternet == false){
-      openSnacbar(scaffoldKey, 'check your internet connection!'.tr());
+      Get.snackbar("Error", 'check your internet connection!');
       
     }else{
       await sb.signInWithGoogle().then((_){
         if(sb.hasError == true){
-          openSnacbar(scaffoldKey, 'something is wrong. please try again.'.tr());
+          Get.snackbar("Error", 'something is wrong. please try again.');
           setState(() =>googleSignInStarted = false);
 
         }else {
@@ -94,13 +94,17 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.background,
       key: scaffoldKey,
       appBar: AppBar(
         actions: [
           widget.tag == 'onBoarding'
               ? Container()
               : ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.background,
+                    elevation: 0,
+                  ),
                   onPressed: () => handleSkip(),
                   child: Text('Guest',
                       style: TextStyle(
