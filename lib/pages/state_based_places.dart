@@ -28,7 +28,7 @@ class _StateBasedPlacesState extends State<StateBasedPlaces> {
   late ScrollController controller;
   late DocumentSnapshot _lastVisible;
   late bool _isLoading;
-  late List<DocumentSnapshot> _snap = List<DocumentSnapshot>();
+  final List<DocumentSnapshot> _snap = List<DocumentSnapshot>.empty();
   List<Place> _data = [];
   late bool _hasData;
 
@@ -48,7 +48,7 @@ class _StateBasedPlacesState extends State<StateBasedPlaces> {
       _snap.clear();
       _data.clear();
       _isLoading = true;
-      _lastVisible = null;
+      _lastVisible = _lastVisible;
     });
     _getData();
   }
@@ -75,7 +75,7 @@ class _StateBasedPlacesState extends State<StateBasedPlaces> {
           .limit(5)
           .get();
 
-    if (data != null && data.docs.length > 0) {
+    if (data != null && data.docs.isNotEmpty) {
       _lastVisible = data.docs[data.docs.length - 1];
       if (mounted) {
         setState(() {
