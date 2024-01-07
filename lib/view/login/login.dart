@@ -26,57 +26,83 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
-  final LoginController controller = Get.find();
   var scaffoldKey = GlobalKey<ScaffoldState>();
   bool googleSignInStarted = false;
-  handleGoogleSignIn() async{
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  handleGoogleSignIn() async {
     final sb = context.read<SignInBloc>();
     final ib = context.read<InternetBloc>();
-    setState(() =>googleSignInStarted = true);
+    setState(() => googleSignInStarted = true);
     await ib.checkInternet();
-    if(ib.hasInternet == false){
+    if (ib.hasInternet == false) {
       openSnacbar(scaffoldKey, 'check your internet connection!'.tr);
-      
-    }else{
-      await sb.signInWithGoogle().then((_){
-        if(sb.hasError == true){
+    } else {
+      await sb.signInWithGoogle().then((_) {
+        if (sb.hasError == true) {
           openSnacbar(scaffoldKey, 'something is wrong. please try again.'.tr);
-          setState(() =>googleSignInStarted = false);
-
-        }else {
-          sb.checkUserExists().then((value){
-          if(value == true){
-            sb.getUserDatafromFirebase(sb.uid)
-            .then((value) => sb.saveDataToSP()
-            .then((value) => sb.guestSignout())
-            .then((value) => sb.setSignIn()
-            .then((value){
-              setState(() =>googleSignInStarted = false);
-              afterSignIn();
-            })));
-          } else{
-            sb.getJoiningDate()
-            .then((value) => sb.saveToFirebase()
-            .then((value) => sb.increaseUserCount())
-            .then((value) => sb.saveDataToSP()
-            .then((value) => sb.guestSignout()
-            .then((value) => sb.setSignIn()
-            .then((value){
-              setState(() => googleSignInStarted = false);
-              afterSignIn();
-            })))));
-          }
-            });
-          
+          setState(() => googleSignInStarted = false);
+        } else {
+          sb.checkUserExists().then((value) {
+            if (value == true) {
+              sb.getUserDatafromFirebase(sb.uid).then((value) => sb
+                  .saveDataToSP()
+                  .then((value) => sb.guestSignout())
+                  .then((value) => sb.setSignIn().then((value) {
+                        setState(() => googleSignInStarted = false);
+                        afterSignIn();
+                      })));
+            } else {
+              sb.getJoiningDate().then((value) => sb
+                  .saveToFirebase()
+                  .then((value) => sb.increaseUserCount())
+                  .then((value) => sb.saveDataToSP().then((value) => sb
+                      .guestSignout()
+                      .then((value) => sb.setSignIn().then((value) {
+                            setState(() => googleSignInStarted = false);
+                            afterSignIn();
+                          })))));
+            }
+          });
         }
       });
     }
   }
 
-  afterSignIn (){
-      nextScreen(context, DonePage());
+  handleEmailSignIn() async {
+    final sb = context.read<SignInBloc>();
+    final ib = context.read<InternetBloc>();
+
+    String email = emailController.text;
+    String password = passwordController.text;
+
+    await ib.checkInternet();
+    if (ib.hasInternet == false) {
+      openSnacbar(scaffoldKey, 'Check your internet connection!');
+    } else {
+      final user = await sb.signInWithEmail(email, password);
+      if (user == null) {
+        openSnacbar(scaffoldKey, 'Something is wrong. Please try again.');
+      } else {
+        sb.checkUserExists().then((value) {
+          if (value == true) {
+            sb
+                .getUserDatafromFirebase(sb.uid)
+                .then((value) => sb.saveDataToSP())
+                .then((value) => sb.guestSignout())
+                .then((value) => sb.setSignIn());
+            afterSignIn();
+          }
+        });
+      }
+    }
   }
+
+  afterSignIn() {
+    nextScreen(context, DonePage());
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = Get.width;
@@ -99,7 +125,7 @@ class _LoginState extends State<Login> {
               height: Responsive.verticalSize(15),
             ),
             MyTextField(
-              controller: controller.emailController,
+              controller: emailController,
               hintText: "email address",
               keyboardType: TextInputType.emailAddress,
               width: width * 0.8,
@@ -109,7 +135,7 @@ class _LoginState extends State<Login> {
               height: Responsive.verticalSize(20),
             ),
             MyTextField(
-              controller: controller.passwordController,
+              controller: passwordController,
               hintText: "password",
               obscureText: true,
               keyboardType: TextInputType.visiblePassword,
@@ -121,13 +147,12 @@ class _LoginState extends State<Login> {
             SizedBox(
               height: Responsive.verticalSize(30),
             ),
-            GetBuilder<LoginController>(builder: (cont) {
-              return MyButton(
-                showCircularBar: cont.isLoading.value,
-                onTap: () => cont.login(),
-                text: "Login",
-              );
-            }),
+            //Login button
+            MyButton(
+              showCircularBar: false,
+              onTap: () => handleEmailSignIn(),
+              text: "Login with email",
+            ),
             Padding(
               padding: EdgeInsets.only(
                   top: Responsive.verticalSize(20),

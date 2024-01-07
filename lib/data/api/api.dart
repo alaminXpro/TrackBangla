@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+//import 'package:google_sign_in/google_sign_in.dart';
 
 class ApiClient extends GetConnect {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -78,44 +78,44 @@ class ApiClient extends GetConnect {
     }
   }
 
-  Future<void> logout() async {
-    try {
-      // Sign out the user from Firebase and clear any active user sessions.
-      await firebaseAuth.signOut();
-    } catch (error) {
-      print(error);
-    }
-  }
+  // Future<void> logout() async {
+  //   try {
+  //     // Sign out the user from Firebase and clear any active user sessions.
+  //     await firebaseAuth.signOut();
+  //   } catch (error) {
+  //     print(error);
+  //   }
+  // }
 
-  Future<User?> loginWithGoogle() async {
-    try {
-      // Create a new instance of the GoogleSignIn class.
-      final GoogleSignIn googleSignIn = GoogleSignIn();
+  // Future<User?> loginWithGoogle() async {
+  //   try {
+  //     // Create a new instance of the GoogleSignIn class.
+  //     final GoogleSignIn googleSignIn = GoogleSignIn();
 
-      // Get the Google account that the user has signed in with.
-      final GoogleSignInAccount? googleAccount = await googleSignIn.signIn();
+  //     // Get the Google account that the user has signed in with.
+  //     final GoogleSignInAccount? googleAccount = await googleSignIn.signIn();
 
-      // Get the authentication credentials from the Google account.
-      final GoogleSignInAuthentication googleAuth =
-          await googleAccount!.authentication;
+  //     // Get the authentication credentials from the Google account.
+  //     final GoogleSignInAuthentication googleAuth =
+  //         await googleAccount!.authentication;
 
-      // Create a new credential using the Google authentication credentials.
-      final OAuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
+  //     // Create a new credential using the Google authentication credentials.
+  //     final OAuthCredential credential = GoogleAuthProvider.credential(
+  //       accessToken: googleAuth.accessToken,
+  //       idToken: googleAuth.idToken,
+  //     );
 
-      // Sign in to Firebase using the Google credential.
-      final userCredential =
-          await firebaseAuth.signInWithCredential(credential);
-      final User user = userCredential.user!;
-      return user;
-    } catch (error) {
-      // Handle any errors that occurred while signing in with Google.
-      print(error);
-      return null;
-    }
-  }
+  //     // Sign in to Firebase using the Google credential.
+  //     final userCredential =
+  //         await firebaseAuth.signInWithCredential(credential);
+  //     final User user = userCredential.user!;
+  //     return user;
+  //   } catch (error) {
+  //     // Handle any errors that occurred while signing in with Google.
+  //     print(error);
+  //     return null;
+  //   }
+  // }
 }
 
 class EmailAlreadyInUseException implements Exception {
