@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
 
         physics: NeverScrollableScrollPhysics(),  
         children: <Widget>[
-           Explore(),
+          Explore(),
           StatesPage(),
           // BlogPage(),
           // BookmarkPage(),

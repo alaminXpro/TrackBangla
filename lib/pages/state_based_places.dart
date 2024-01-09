@@ -26,9 +26,9 @@ class _StateBasedPlacesState extends State<StateBasedPlaces> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final String collectionName = 'places';
   late ScrollController controller;
-  late DocumentSnapshot _lastVisible;
+  DocumentSnapshot? _lastVisible;
   late bool _isLoading;
-  final List<DocumentSnapshot> _snap = List<DocumentSnapshot>.empty();
+  List<DocumentSnapshot> _snap = List<DocumentSnapshot>.empty(growable: true);
   List<Place> _data = [];
   late bool _hasData;
 
@@ -48,7 +48,7 @@ class _StateBasedPlacesState extends State<StateBasedPlaces> {
       _snap.clear();
       _data.clear();
       _isLoading = true;
-      _lastVisible = _lastVisible;
+      _lastVisible = null;
     });
     _getData();
   }
@@ -71,7 +71,7 @@ class _StateBasedPlacesState extends State<StateBasedPlaces> {
           .collection(collectionName)
           .where('state', isEqualTo: widget.stateName)
           .orderBy('loves', descending: true)
-          .startAfter([_lastVisible['loves']])
+          .startAfter([_lastVisible!['loves']])
           .limit(5)
           .get();
 

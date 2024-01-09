@@ -3,9 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trackbangla/blocs/blog_bloc.dart';
 import 'package:trackbangla/blocs/bookmark_bloc.dart';
+import 'package:trackbangla/blocs/featured_bloc.dart';
 import 'package:trackbangla/blocs/internet_bloc.dart';
 import 'package:trackbangla/blocs/other_places_bloc.dart';
+import 'package:trackbangla/blocs/popular_places_bloc.dart';
+import 'package:trackbangla/blocs/recent_places_bloc.dart';
+import 'package:trackbangla/blocs/recommanded_places_bloc.dart';
+import 'package:trackbangla/blocs/search_bloc.dart';
 import 'package:trackbangla/blocs/sign_in_bloc.dart';
+import 'package:trackbangla/blocs/sp_state_one.dart';
+import 'package:trackbangla/blocs/sp_state_two.dart';
 import 'package:trackbangla/blocs/state_bloc.dart';
 import 'package:trackbangla/core/utils/initial_bindings.dart';
 import 'package:trackbangla/firebase_options.dart';
@@ -43,12 +50,21 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<BlogBloc>( create: (context) => BlogBloc(),),
         ChangeNotifierProvider<InternetBloc>(create: (context) => InternetBloc(),),
         ChangeNotifierProvider<SignInBloc>(create: (context) => SignInBloc(),),
-        ChangeNotifierProvider(create: (context) => BlogBloc(),),
-        ChangeNotifierProvider(create: (context) => BookmarkBloc(),),
-        ChangeNotifierProvider(create: (context) => OtherPlacesBloc(),),
-        ChangeNotifierProvider(create: (context) => StateBloc(),),
+        //ChangeNotifierProvider<CommentsBloc>(create: (context) => CommentsBloc(),),
+        ChangeNotifierProvider<BookmarkBloc>(create: (context) => BookmarkBloc(),),
+        ChangeNotifierProvider<PopularPlacesBloc>(create: (context) => PopularPlacesBloc(),),
+        ChangeNotifierProvider<RecentPlacesBloc>(create: (context) => RecentPlacesBloc(),),
+        ChangeNotifierProvider<RecommandedPlacesBloc>(create: (context) => RecommandedPlacesBloc(),),
+        ChangeNotifierProvider<FeaturedBloc>(create: (context) => FeaturedBloc(),),
+        ChangeNotifierProvider<SearchBloc>(create: (context) => SearchBloc()),
+        //ChangeNotifierProvider<NotificationBloc>(create: (context) => NotificationBloc()),
+        ChangeNotifierProvider<StateBloc>(create: (context) => StateBloc()),
+        ChangeNotifierProvider<SpecialStateOneBloc>(create: (context) => SpecialStateOneBloc()),
+        ChangeNotifierProvider<SpecialStateTwoBloc>(create: (context) => SpecialStateTwoBloc()),
+        ChangeNotifierProvider<OtherPlacesBloc>(create: (context) => OtherPlacesBloc()),
       ],
       child: GetMaterialApp(
         supportedLocales: context.supportedLocales,
