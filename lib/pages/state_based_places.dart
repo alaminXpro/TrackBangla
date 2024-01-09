@@ -48,7 +48,7 @@ class _StateBasedPlacesState extends State<StateBasedPlaces> {
       _snap.clear();
       _data.clear();
       _isLoading = true;
-      _lastVisible = _lastVisible;
+      _lastVisible = null;
     });
     _getData();
   }

@@ -40,7 +40,7 @@ class BookmarkBloc extends ChangeNotifier {
     String collectionName = 'blogs';
     String type = 'bookmarked blogs';
     List<Blog> data = [];
-    List<DocumentSnapshot> _snap = [];
+    List<DocumentSnapshot> _snap = List<DocumentSnapshot>.empty(growable: true);
     SharedPreferences sp = await SharedPreferences.getInstance();
     String? _uid = sp.getString('uid');
 

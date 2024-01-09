@@ -25,7 +25,7 @@ class LoveCount extends StatelessWidget {
               .doc(timestamp)
               .snapshots(),
           builder: (context, AsyncSnapshot snap) {
-            if (!snap.hasData)
+            if (!snap.hasData) {
               return Text(
                 0.toString(),
                 style: TextStyle(
@@ -33,8 +33,10 @@ class LoveCount extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     color: Colors.grey),
               );
+            }
             return Text(
-              snap.data['loves'].toString(),
+              // snap.data['loves'].toString(),
+              '0',
               style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
