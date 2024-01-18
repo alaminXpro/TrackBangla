@@ -28,14 +28,21 @@ class BlogBloc extends ChangeNotifier {
     _hasData = true;
     QuerySnapshot rawData;
 
-    rawData = await firestore
-        .collection('blogs')
-        .orderBy(orderBy, descending: true)
-        .startAfter([_lastVisible?[orderBy]])
-        .limit(5)
-        .get();
+    if (_lastVisible == null)
+      rawData = await firestore
+          .collection('blogs')
+          .orderBy(orderBy, descending: true)
+          .limit(5)
+          .get();
+    else
+      rawData = await firestore
+          .collection('blogs')
+          .orderBy(orderBy, descending: true)
+          .startAfter([_lastVisible![orderBy]])
+          .limit(5)
+          .get();
 
-    if (rawData.docs.isNotEmpty) {
+    if (rawData != null && rawData.docs.length > 0) {
       _lastVisible = rawData.docs[rawData.docs.length - 1];
       if (mounted) {
         _isLoading = false;
@@ -43,9 +50,15 @@ class BlogBloc extends ChangeNotifier {
         _data = _snap.map((e) => Blog.fromFirestore(e)).toList();
       }
     } else {
-      _isLoading = false;
-      _hasData = true;
-      print('no more items');
+      if (_lastVisible == null) {
+        _isLoading = false;
+        _hasData = false;
+        print('no items');
+      } else {
+        _isLoading = false;
+        _hasData = true;
+        print('no more items');
+      }
     }
 
     notifyListeners();
