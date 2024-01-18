@@ -12,7 +12,6 @@ import '/widgets/custom_cache_image.dart';
 import '/core/utils/loading_cards.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-
 class BlogPage extends StatefulWidget {
   BlogPage({Key? key}) : super(key: key);
 
@@ -20,9 +19,8 @@ class BlogPage extends StatefulWidget {
   _BlogPageState createState() => _BlogPageState();
 }
 
-class _BlogPageState extends State<BlogPage> with AutomaticKeepAliveClientMixin {
-
-
+class _BlogPageState extends State<BlogPage>
+    with AutomaticKeepAliveClientMixin {
   late ScrollController controller;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   String _orderBy = 'loves';
@@ -30,23 +28,17 @@ class _BlogPageState extends State<BlogPage> with AutomaticKeepAliveClientMixin 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 0))
-        .then((value){
-      controller = new ScrollController()..addListener(_scrollListener);
-      context.read<BlogBloc>().getData(mounted, _orderBy);
-    });
-
+    controller = ScrollController();
+    controller.addListener(_scrollListener);
+    context.read<BlogBloc>().getData(mounted, _orderBy);
   }
-
 
   @override
   void dispose() {
     controller.removeListener(_scrollListener);
+    controller.dispose();
     super.dispose();
   }
-
-
-
 
   void _scrollListener() {
     final db = context.read<BlogBloc>();
@@ -55,11 +47,9 @@ class _BlogPageState extends State<BlogPage> with AutomaticKeepAliveClientMixin 
       if (controller.position.pixels == controller.position.maxScrollExtent) {
         context.read<BlogBloc>().setLoading(true);
         context.read<BlogBloc>().getData(mounted, _orderBy);
-
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +60,7 @@ class _BlogPageState extends State<BlogPage> with AutomaticKeepAliveClientMixin 
       appBar: AppBar(
         centerTitle: false,
         automaticallyImplyLeading: false,
-        title: Text(
-            'blogs'
-
-        ).tr(),
+        title: Text('blogs').tr(),
         elevation: 0,
         actions: <Widget>[
           PopupMenuButton(
@@ -93,63 +80,72 @@ class _BlogPageState extends State<BlogPage> with AutomaticKeepAliveClientMixin 
               },
               onSelected: (value) {
                 setState(() {
-                  if(value == 'popular'){
+                  if (value == 'popular') {
                     _orderBy = 'loves';
-                  }else{
+                  } else {
                     _orderBy = 'timestamp';
                   }
                 });
                 bb.afterPopSelection(value, mounted, _orderBy);
               }),
           IconButton(
-            icon: Icon(Icons.rotate_90_degrees_ccw, size: 22,),
-            onPressed: (){
+            icon: Icon(
+              Icons.rotate_90_degrees_ccw,
+              size: 22,
+            ),
+            onPressed: () {
               context.read<BlogBloc>().onRefresh(mounted, _orderBy);
             },
           )
         ],
       ),
-
       body: RefreshIndicator(
         child: bb.hasData == false
             ? ListView(
-          children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.35,),
-            EmptyPage(icon: Icons.content_cut, message: 'No blogs found', message1: ''),
-          ],
-        )
-
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.35,
+                  ),
+                  // EmptyPage(
+                  //     icon: Icons.content_cut,
+                  //     message: 'No blogs found',
+                  //     message1: ''),
+                  Text(
+                    'No blogs found',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.center,
+                  )
+                ],
+              )
             : ListView.separated(
-          padding: EdgeInsets.all(15),
-          controller: controller,
-          physics: AlwaysScrollableScrollPhysics(),
-          itemCount: bb.data.length != 0 ? bb.data.length + 1 : 5,
-          separatorBuilder: (BuildContext context, int index) => SizedBox(height: 15,),
+                padding: EdgeInsets.all(15),
+                controller: controller,
+                physics: AlwaysScrollableScrollPhysics(),
+                itemCount: bb.data.length != 0 ? bb.data.length + 1 : 5,
+                separatorBuilder: (BuildContext context, int index) => SizedBox(
+                  height: 15,
+                ),
 
-          //shrinkWrap: true,
-          itemBuilder: (_, int index) {
-
-            if (index < bb.data.length) {
-              return _ItemList(d: bb.data[index]);
-            }
-            return Opacity(
-              opacity: bb.isLoading ? 1.0 : 0.0,
-              child: bb.lastVisible == null
-                  ? LoadingCard(height: 250)
-
-                  : Center(
-                child: SizedBox(
-                    width: 32.0,
-                    height: 32.0,
-                    child: new CupertinoActivityIndicator()),
+                //shrinkWrap: true,
+                itemBuilder: (_, int index) {
+                  if (index < bb.data.length) {
+                    return _ItemList(d: bb.data[index]);
+                  }
+                  return Opacity(
+                    opacity: bb.isLoading ? 1.0 : 0.0,
+                    child: bb.lastVisible == null
+                        ? LoadingCard(height: 250)
+                        : Center(
+                            child: SizedBox(
+                                width: 32.0,
+                                height: 32.0,
+                                child: new CupertinoActivityIndicator()),
+                          ),
+                  );
+                },
               ),
-
-            );
-          },
-        ),
         onRefresh: () async {
           context.read<BlogBloc>().onRefresh(mounted, _orderBy);
-
         },
       ),
     );
@@ -158,7 +154,6 @@ class _BlogPageState extends State<BlogPage> with AutomaticKeepAliveClientMixin 
   @override
   bool get wantKeepAlive => true;
 }
-
 
 class _ItemList extends StatelessWidget {
   final Blog d;
@@ -171,14 +166,10 @@ class _ItemList extends StatelessWidget {
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(5),
-              boxShadow: <BoxShadow> [
+              boxShadow: <BoxShadow>[
                 BoxShadow(
-                    color: Colors.grey,
-                    blurRadius: 10,
-                    offset: Offset(0, 3)
-                )
-              ]
-          ),
+                    color: Colors.grey, blurRadius: 10, offset: Offset(0, 3))
+              ]),
           child: Wrap(
             children: [
               Hero(
@@ -188,7 +179,7 @@ class _ItemList extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(5),
-                      child: CustomCacheImage(imageUrl: d.thumbnailImagelUrl)),
+                      child: CustomCacheImage(imageUrl: d.thumbUrl)),
                 ),
               ),
               Container(
@@ -200,49 +191,61 @@ class _ItemList extends StatelessWidget {
                       d.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w600
-                      ),),
-                    SizedBox(height: 5,),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Text(
-                        HtmlUnescape().convert(parse(d.description).documentElement!.text),
+                        HtmlUnescape().convert(
+                            parse(d.description).documentElement!.text),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
-                        style:TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w400, color: Colors.grey[700]
-                        )
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey[700])),
+                    SizedBox(
+                      height: 10,
                     ),
-                    SizedBox(height: 10,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(CupertinoIcons.time, size: 16, color: Colors.grey,),
-                        SizedBox(width: 3,),
-                        Text(d.date, style: TextStyle(
-                            fontSize: 12, color: Colors.grey
-                        ),),
+                        Icon(
+                          CupertinoIcons.time,
+                          size: 16,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(
+                          width: 3,
+                        ),
+                        Text(
+                          d.date,
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
                         Spacer(),
-                        Icon(Icons.favorite, size: 16, color: Colors.grey,),
-                        SizedBox(width: 3,),
-                        Text(d.loves.toString(), style: TextStyle(
-                            fontSize: 12, color: Colors.grey
-                        ),)
+                        Icon(
+                          Icons.favorite,
+                          size: 16,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(
+                          width: 3,
+                        ),
+                        Text(
+                          d.loves.toString(),
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                        )
                       ],
                     )
-
-
                   ],
                 ),
               ),
-
             ],
           ),
         ),
-
-        onTap: () => nextScreen(context, BlogDetails(blogData: d, tag: 'blog${d.timestamp}'))
-    );
+        onTap: () => nextScreen(
+            context, BlogDetails(blogData: d, tag: 'blog${d.timestamp}')));
   }
 }
-
-
-

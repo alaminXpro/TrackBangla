@@ -54,11 +54,11 @@ class _BlogDetailsState extends State<BlogDetails> {
   }
 
 
-  handleSource(link) async {
-    if(await canLaunch(link)){
-      launch(link);
-    }
-  }
+  // handleSource(link) async {
+  //   if(await canLaunch(link)){
+  //     launch(link);
+  //   }
+  // }
 
   handleShare (){
     //Share.share('${widget.blogData.title}, To read more install ${Config().appName} App. https://play.google.com/store/apps/details?id=com.mrblab.travel_hour');
@@ -199,7 +199,9 @@ class _BlogDetailsState extends State<BlogDetails> {
                           //         fontWeight: FontWeight.w500),
                           //   ),
                           // ),
-                          TextButton(onPressed: () => handleSource(d.sourceUrl),
+                          TextButton(onPressed: () {
+                            //handleSource(d.sourceUrl)
+                          },
                               child: Text(
                                     d.sourceUrl.contains('www')
                                         ? d.sourceUrl
@@ -248,7 +250,7 @@ class _BlogDetailsState extends State<BlogDetails> {
                       height: 220,width: MediaQuery.of(context).size.width,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
-                          child: CustomCacheImage(imageUrl: d.thumbnailImagelUrl))),
+                          child: CustomCacheImage(imageUrl: d.thumbUrl))),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
