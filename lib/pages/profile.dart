@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
-//import '/blocs/notification_bloc.dart';
+import '/blocs/notification_bloc.dart';
 import '/blocs/sign_in_bloc.dart';
 import '/core/config/config.dart';
 import '/pages/edit_profile.dart';
-//import '/pages/notifications.dart';
+import '/pages/notifications.dart';
 import '/pages/sign_in.dart';
 import '/core/utils/next_screen.dart';
 import '/widgets/language.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:easy_localization/easy_localization.dart';
-
 
 
 class ProfilePage extends StatefulWidget {
@@ -57,8 +56,10 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
         title: Text('profile').tr(),
         centerTitle: false,
         actions: [
-          IconButton(icon: Icon(Icons.notifications, size: 20), onPressed: (){ 
-            //nextScreen(context, NotificationsPage());
+          IconButton(icon: 
+          Icon(Icons.notifications, size: 20),
+           onPressed: (){ 
+            nextScreen(context, NotificationsPage());
             }
           )
         ],
@@ -87,12 +88,12 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
               ),
               child: Icon(Icons.notifications, size: 20, color: Colors.white),
             ),
-            // trailing:  Switch(
-            //     activeColor: Theme.of(context).primaryColor,
-            //     value: context.watch<NotificationBloc>().subscribed,
-            //     onChanged: (bool) {
-            //       context.read<NotificationBloc>().fcmSubscribe(bool);
-            //     }),
+            trailing:  Switch(
+                activeColor: Theme.of(context).primaryColor,
+                value: context.watch<NotificationBloc>().subscribed,
+                onChanged: (bool) {
+                  context.read<NotificationBloc>().fcmSubscribe(bool);
+                }),
           ),
           Divider(height: 5,),
           ListTile(
@@ -139,7 +140,9 @@ class _ProfilePageState extends State<ProfilePage> with AutomaticKeepAliveClient
               child: Icon(Icons.star, size: 20, color: Colors.white),
             ),
             trailing: Icon(Icons.chevron_right, size: 20,),
-            onTap: ()async=> LaunchReview.launch(androidAppId: sb.packageName, iOSAppId: Config().iOSAppId),
+            onTap: ()async {
+              
+            },
           ),
           Divider(height: 5,),
 

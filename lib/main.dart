@@ -5,6 +5,7 @@ import 'package:trackbangla/blocs/blog_bloc.dart';
 import 'package:trackbangla/blocs/bookmark_bloc.dart';
 import 'package:trackbangla/blocs/featured_bloc.dart';
 import 'package:trackbangla/blocs/internet_bloc.dart';
+import 'package:trackbangla/blocs/notification_bloc.dart';
 import 'package:trackbangla/blocs/other_places_bloc.dart';
 import 'package:trackbangla/blocs/popular_places_bloc.dart';
 import 'package:trackbangla/blocs/recent_places_bloc.dart';
@@ -60,7 +61,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<RecommandedPlacesBloc>(create: (context) => RecommandedPlacesBloc(),),
         ChangeNotifierProvider<FeaturedBloc>(create: (context) => FeaturedBloc(),),
         ChangeNotifierProvider<SearchBloc>(create: (context) => SearchBloc()),
-        //ChangeNotifierProvider<NotificationBloc>(create: (context) => NotificationBloc()),
+        ChangeNotifierProvider<NotificationBloc>(create: (context) => NotificationBloc()),
         ChangeNotifierProvider<StateBloc>(create: (context) => StateBloc()),
         ChangeNotifierProvider<SpecialStateOneBloc>(create: (context) => SpecialStateOneBloc()),
         ChangeNotifierProvider<SpecialStateTwoBloc>(create: (context) => SpecialStateTwoBloc()),

@@ -1,6 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-//import '/blocs/notification_bloc.dart';
+import '/blocs/notification_bloc.dart';
 import '/pages/blogs.dart';
 // import '/pages/bookmark.dart';
 import '/pages/explore.dart';
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     Future.delayed(Duration(milliseconds: 0))
     .then((value) async{
-      //await context.read<NotificationBloc>().initFirebasePushNotification(context);
+      await context.read<NotificationBloc>().initFirebasePushNotification(context);
     });
   }
 
