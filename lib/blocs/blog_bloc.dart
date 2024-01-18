@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '/models/blog.dart';
 
 class BlogBloc extends ChangeNotifier {
-
   DocumentSnapshot? _lastVisible;
   DocumentSnapshot? get lastVisible => _lastVisible;
 
@@ -18,16 +17,12 @@ class BlogBloc extends ChangeNotifier {
   String _popSelection = 'popular';
   String get popupSelection => _popSelection;
 
-
-  final List<DocumentSnapshot> _snap = List<DocumentSnapshot>.empty();
+  final List<DocumentSnapshot> _snap =
+      List<DocumentSnapshot>.empty(growable: true);
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-
 
   late bool _hasData;
   bool get hasData => _hasData;
-
-
-
 
   Future<Null> getData(mounted, String orderBy) async {
     _hasData = true;
@@ -36,13 +31,9 @@ class BlogBloc extends ChangeNotifier {
     rawData = await firestore
         .collection('blogs')
         .orderBy(orderBy, descending: true)
-        .startAfter([_lastVisible![orderBy]])
+        .startAfter([_lastVisible?[orderBy]])
         .limit(5)
         .get();
-
-
-
-
 
     if (rawData.docs.isNotEmpty) {
       _lastVisible = rawData.docs[rawData.docs.length - 1];
@@ -52,42 +43,32 @@ class BlogBloc extends ChangeNotifier {
         _data = _snap.map((e) => Blog.fromFirestore(e)).toList();
       }
     } else {
-
       _isLoading = false;
       _hasData = true;
       print('no more items');
-    
     }
 
     notifyListeners();
     return null;
   }
 
-
-  afterPopSelection (value, mounted, orderBy){
+  afterPopSelection(value, mounted, orderBy) {
     _popSelection = value;
     onRefresh(mounted, orderBy);
     notifyListeners();
   }
-
-
 
   setLoading(bool isloading) {
     _isLoading = isloading;
     notifyListeners();
   }
 
-
-
-
-  onRefresh(mounted, orderBy) {
+  onRefresh(mounted, orderBy) async {
     _isLoading = true;
     _snap.clear();
     _data.clear();
     _lastVisible = null;
-    getData(mounted, orderBy);
+    await getData(mounted, orderBy); // Add 'await' here
     notifyListeners();
   }
-
-
 }
