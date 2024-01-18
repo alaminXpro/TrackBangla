@@ -1,7 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 //import '/blocs/notification_bloc.dart';
-// import '/pages/blogs.dart';
+import '/pages/blogs.dart';
 // import '/pages/bookmark.dart';
 import '/pages/explore.dart';
 import '/pages/profile.dart';
@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           Explore(),
           StatesPage(),
-          // BlogPage(),
+          BlogPage(),
           // BookmarkPage(),
           ProfilePage(),
         ],
