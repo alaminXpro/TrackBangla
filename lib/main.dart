@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trackbangla/blocs/blog_bloc.dart';
 import 'package:trackbangla/blocs/bookmark_bloc.dart';
+import 'package:trackbangla/blocs/comments_bloc.dart';
 import 'package:trackbangla/blocs/featured_bloc.dart';
 import 'package:trackbangla/blocs/internet_bloc.dart';
 import 'package:trackbangla/blocs/notification_bloc.dart';
@@ -54,7 +55,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<BlogBloc>( create: (context) => BlogBloc(),),
         ChangeNotifierProvider<InternetBloc>(create: (context) => InternetBloc(),),
         ChangeNotifierProvider<SignInBloc>(create: (context) => SignInBloc(),),
-        //ChangeNotifierProvider<CommentsBloc>(create: (context) => CommentsBloc(),),
+        ChangeNotifierProvider<CommentsBloc>(create: (context) => CommentsBloc(),),
         ChangeNotifierProvider<BookmarkBloc>(create: (context) => BookmarkBloc(),),
         ChangeNotifierProvider<PopularPlacesBloc>(create: (context) => PopularPlacesBloc(),),
         ChangeNotifierProvider<RecentPlacesBloc>(create: (context) => RecentPlacesBloc(),),

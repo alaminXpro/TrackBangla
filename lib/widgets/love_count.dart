@@ -35,8 +35,7 @@ class LoveCount extends StatelessWidget {
               );
             }
             return Text(
-              // snap.data['loves'].toString(),
-              '0',
+              snap.data['loves'].toString(),
               style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,

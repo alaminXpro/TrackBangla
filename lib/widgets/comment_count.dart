@@ -24,8 +24,7 @@ class CommentCount extends StatelessWidget {
                   color: Colors.grey),
             );
           return Text(
-            // snap.data['comments count'].toString(),
-            '0',
+            snap.data['comments count'].toString(),
             style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,

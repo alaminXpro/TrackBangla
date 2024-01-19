@@ -7,7 +7,7 @@ import 'package:trackbangla/blocs/bookmark_bloc.dart';
 import '/blocs/sign_in_bloc.dart';
 import '/models/blog.dart';
 import '/core/config/config.dart';
-//import '/pages/comments.dart';
+import '/pages/comments.dart';
 import '/core/utils/next_screen.dart';
 import '/core/utils/sign_in_dialog.dart';
 import '/widgets/bookmark_icon.dart';
@@ -54,14 +54,14 @@ class _BlogDetailsState extends State<BlogDetails> {
   }
 
 
-  // handleSource(link) async {
-  //   if(await canLaunch(link)){
-  //     launch(link);
-  //   }
-  // }
+  handleSource(link) async {
+    if(await canLaunchUrl(link)){
+      launchUrl(link);
+    }
+  }
 
   handleShare (){
-    //Share.share('${widget.blogData.title}, To read more install ${Config().appName} App. https://play.google.com/store/apps/details?id=com.mrblab.travel_hour');
+    //Share.share('${widget.blogData.title}, To read more install ${Config().appName} App. https://play.google.com/store/apps/details?id=');
   }
 
   @override
@@ -175,30 +175,33 @@ class _BlogDetailsState extends State<BlogDetails> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          // FlatButton.icon(
-                          //   color: Colors.grey[200],
-                          //   padding: EdgeInsets.all(0),
-                          //   onPressed: () => handleSource(d.sourceUrl),
-                          //   icon: Icon(Feather.external_link,
-                          //       size: 20, color: Colors.blueAccent),
-                          //   label: Text(
-                          //     d.sourceUrl.contains('www')
-                          //         ? d.sourceUrl
-                          //         .replaceAll('https://www.', '')
-                          //         .split('.')
-                          //         .first
-                          //         : d.sourceUrl
-                          //         .replaceAll('https://', '')
-                          //         .split('.')
-                          //         .first,
-                          //     maxLines: 1,
-                          //     overflow: TextOverflow.ellipsis,
-                          //     style: TextStyle(
-                          //         color: Colors.grey[900],
-                          //         fontSize: 13,
-                          //         fontWeight: FontWeight.w500),
-                          //   ),
-                          // ),
+                          TextButton.icon(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.all(0),
+                            ),
+                            onPressed: () {
+                               //handleSource(d.sourceUrl)
+                            },
+                            icon: Icon(Icons.exit_to_app,
+                                size: 20, color: Colors.blueAccent),
+                            label: Text(
+                              d.sourceUrl.contains('www')
+                                  ? d.sourceUrl
+                                  .replaceAll('https://www.', '')
+                                  .split('.')
+                                  .first
+                                  : d.sourceUrl
+                                  .replaceAll('https://', '')
+                                  .split('.')
+                                  .first,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  color: Colors.grey[900],
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
                           TextButton(onPressed: () {
                             //handleSource(d.sourceUrl)
                           },
@@ -265,10 +268,16 @@ class _BlogDetailsState extends State<BlogDetails> {
                       ),
                       TextButton(
                           onPressed: () {
-                           // nextScreen(context, CommentsPage(collectionName: collectionName, timestamp: d.timestamp));
+                           nextScreen(context, CommentsPage(collectionName: collectionName, timestamp: d.timestamp));
 
                           }, child:
-                        Text("Comment"),
+                        Text("Comment",
+                        
+                        style: TextStyle(
+                          color: Colors.grey[700],
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500
+                        ),)
                       )
                     ],
                   ),

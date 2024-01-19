@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import '/models/place.dart';
-//import '/pages/comments.dart';
+import '/pages/comments.dart';
 //import '/pages/guide.dart';
 //import '/pages/hotel.dart';
 //import '/pages/restaurant.dart';
@@ -203,7 +203,7 @@ class TodoWidget extends StatelessWidget {
                           ).tr(),
                         ])),
                 onTap: () {
-                  //nextScreen(context, CommentsPage(collectionName: 'places', timestamp: placeData.timestamp,))
+                  nextScreen(context, CommentsPage(collectionName: 'places', timestamp: placeData.timestamp,));
                 },
               ),
             ],

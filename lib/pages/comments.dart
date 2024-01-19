@@ -11,15 +11,14 @@ import '/models/comment.dart';
 import '/core/utils/empty.dart';
 import '/core/utils/loading_cards.dart';
 import '/core/utils/sign_in_dialog.dart';
-import '/core/utils/toast.dart';
+//import '/core/utils/toast.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class CommentsPage extends StatefulWidget {
   final String collectionName;
   final String timestamp;
   const CommentsPage(
-      {Key? key, required this.collectionName, required this.timestamp})
-      : super(key: key);
+      {super.key, required this.collectionName, required this.timestamp});
 
   @override
   _CommentsPageState createState() => _CommentsPageState();
@@ -30,7 +29,7 @@ class _CommentsPageState extends State<CommentsPage> {
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   late ScrollController controller;
-  late DocumentSnapshot _lastVisible;
+  DocumentSnapshot? _lastVisible;
   late bool _isLoading;
   List<DocumentSnapshot> _snap = new List<DocumentSnapshot>.empty(growable: true);
   List<Comment> _data = [];
@@ -55,21 +54,22 @@ class _CommentsPageState extends State<CommentsPage> {
   Future<Null> _getData() async {
     setState(() => _hasData = true);
     QuerySnapshot data;
-    if (_lastVisible == null)
+    if (_lastVisible == null) {
       data = await firestore
           .collection('${widget.collectionName}/${widget.timestamp}/comments')
           .orderBy('timestamp', descending: true)
           .limit(7)
           .get();
-    else
+    } else {
       data = await firestore
           .collection('${widget.collectionName}/${widget.timestamp}/comments')
           .orderBy('timestamp', descending: true)
-          .startAfter([_lastVisible['timestamp']])
+          .startAfter([_lastVisible!['timestamp']])
           .limit(7)
           .get();
+    }
 
-    if (data != null && data.docs.length > 0) {
+    if (data != null && data.docs.isNotEmpty) {
       _lastVisible = data.docs[data.docs.length - 1];
       if (mounted) {
         setState(() {
@@ -168,11 +168,11 @@ class _CommentsPageState extends State<CommentsPage> {
                       await ib.checkInternet();
                       if (!ib.hasInternet) {
                         Navigator.pop(context);
-                        openToast(context, 'no internet'.tr());
+                        //openToast(context, 'no internet'.tr());
                       } else {
                         if (sb.uid != d.uid) {
                           Navigator.pop(context);
-                          openToast(context, 'You can not delete others comment');
+                          //openToast(context, 'You can not delete others comment');
                         } else {
                           await context.read<CommentsBloc>().deleteComment(
                             widget.collectionName,
@@ -238,7 +238,7 @@ class _CommentsPageState extends State<CommentsPage> {
         print('Comment is empty');
       } else {
         if (ib.hasInternet == false) {
-          openToast(context, 'no internet'.tr());
+          //openToast(context, 'no internet'.tr());
         } else {
           context
               .read<CommentsBloc>()
@@ -260,6 +260,7 @@ class _CommentsPageState extends State<CommentsPage> {
       _isLoading = true;
       _snap.clear();
       _data.clear();
+      _lastVisible = null;
     });
     _getData();
   }
@@ -278,7 +279,7 @@ class _CommentsPageState extends State<CommentsPage> {
             widget.collectionName == 'places' ? 'user reviews' : 'comments').tr(),
         titleSpacing: 0,
         actions: [
-          IconButton(icon: Icon(Icons.ac_unit_rounded, size: 22,), onPressed: ()=> onRefreshData())
+          IconButton(icon: Icon(Icons.refresh, size: 22,), onPressed: ()=> onRefreshData())
         ],
       ),
       body: Column(
