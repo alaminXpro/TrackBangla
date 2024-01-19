@@ -55,9 +55,9 @@ class _BlogDetailsState extends State<BlogDetails> {
 
 
   handleSource(link) async {
-    if(await canLaunchUrl(link)){
-      launchUrl(link);
-    }
+    // if(await canLaunchUrl(link as Uri)){
+    //   launchUrl(link);
+    // }
   }
 
   handleShare (){
@@ -180,7 +180,7 @@ class _BlogDetailsState extends State<BlogDetails> {
                               padding: EdgeInsets.all(0),
                             ),
                             onPressed: () {
-                               //handleSource(d.sourceUrl)
+                               handleSource(d.sourceUrl);
                             },
                             icon: Icon(Icons.exit_to_app,
                                 size: 20, color: Colors.blueAccent),
@@ -202,26 +202,26 @@ class _BlogDetailsState extends State<BlogDetails> {
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
-                          TextButton(onPressed: () {
-                            //handleSource(d.sourceUrl)
-                          },
-                              child: Text(
-                                    d.sourceUrl.contains('www')
-                                        ? d.sourceUrl
-                                        .replaceAll('https://www.', '')
-                                        .split('.')
-                                        .first
-                                        : d.sourceUrl
-                                        .replaceAll('https://', '')
-                                        .split('.')
-                                        .first,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: Colors.grey[900],
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500),
-                                  ),),
+                          // TextButton(onPressed: () {
+                          //   //handleSource(d.sourceUrl)
+                          // },
+                          //     child: Text(
+                          //           d.sourceUrl.contains('www')
+                          //               ? d.sourceUrl
+                          //               .replaceAll('https://www.', '')
+                          //               .split('.')
+                          //               .first
+                          //               : d.sourceUrl
+                          //               .replaceAll('https://', '')
+                          //               .split('.')
+                          //               .first,
+                          //           maxLines: 1,
+                          //           overflow: TextOverflow.ellipsis,
+                          //           style: TextStyle(
+                          //               color: Colors.grey[900],
+                          //               fontSize: 13,
+                          //               fontWeight: FontWeight.w500),
+                          //         ),),
                           Spacer(),
                           IconButton(
                               icon: BuildLoveIcon(
@@ -271,13 +271,25 @@ class _BlogDetailsState extends State<BlogDetails> {
                            nextScreen(context, CommentsPage(collectionName: collectionName, timestamp: d.timestamp));
 
                           }, child:
-                        Text("Comment",
-                        
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500
-                        ),)
+                        Container(
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.comment,
+                                size: 18,
+                                color: Colors.grey,
+                              ),
+                              SizedBox(
+                                width: 3,
+                              ),
+                              Text(
+                                'comments'.tr(),
+                                style: TextStyle(
+                                    fontSize: 13, color: Colors.grey[700]),
+                              ),
+                            ],
+                          ),
+                        ),
                       )
                     ],
                   ),
