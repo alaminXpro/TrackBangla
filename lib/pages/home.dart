@@ -1,4 +1,4 @@
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import '/blocs/notification_bloc.dart';
 import '/pages/blogs.dart';
@@ -25,7 +25,8 @@ class _HomePageState extends State<HomePage> {
     Icons.explore,
     Icons.list,
     Icons.bookmark,
-    Icons.person
+    Icons.person,
+    //Icons.settings,
   ];
 
 
@@ -64,13 +65,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: AnimatedBottomNavigationBar(
-        icons: iconList,
-        iconSize: 40,
-        scaleFactor: 1.5,
-        blurEffect: true,
-        activeIndex: _currentIndex,
-        inactiveColor: Colors.grey[800],
+      bottomNavigationBar: 
+      CurvedNavigationBar(
+        backgroundColor: Colors.white,
+        color: Colors.blue,
+        buttonBackgroundColor: Colors.blue,
+        animationCurve: Curves.easeInOut,
+        animationDuration: Duration(milliseconds: 400),
+        height: 50,
+        items:iconList.map((e) => Icon(e, size: 30, color: Colors.white,)).toList(),
         onTap: (index) => onTabTapped(index),
       ),
       body: PageView(
