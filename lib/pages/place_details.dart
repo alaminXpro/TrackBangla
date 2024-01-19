@@ -213,58 +213,17 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                         color: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.circular(40)),
                   ),
-                  Row(
-                    children: <Widget>[
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.favorite,
-                            color: Colors.grey[500],
-                            size: 18,
-                          ),
-                          SizedBox(
-                            width: 2,
-                          ),
-                          Text(
-                            widget.data.loves.toString(),
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.grey),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            'people like this',
-                            maxLines: 1,
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Icon(
-                        Icons.comment,
-                        color: Colors.grey,
-                        size: 20,
-                      ),
-                      SizedBox(
-                        width: 2,
-                      ),
-                      Text(
-                        widget.data.commentsCount.toString(),
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.grey),
-                      )
-                    ],
-                  ),
+                  Row(children: <Widget>[
+
+                    LoveCount(
+                            collectionName: collectionName,
+                            timestamp: widget.data.timestamp),
+
+                    SizedBox(width: 20,),
+                    Icon(Icons.comment, color: Colors.grey, size: 20,),
+                    SizedBox(width: 2,),
+                    CommentCount(collectionName: collectionName, timestamp: widget.data.timestamp)
+                  ],),
                   SizedBox(
                     height: 30,
                   ),
