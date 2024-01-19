@@ -25,7 +25,7 @@ class Blog {
     return Blog(
       title: d['title'] ?? '',
       description: d['description'] ?? '',
-      thumbUrl: d['image'] ?? '',
+      thumbUrl: d['image url'] ?? '',
       loves: d['loves'] ?? 0,
       sourceUrl: d['source'] ?? '',
       date: d['date'] ?? '',
