@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+//import 'package:flutter/services.dart';
+//import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import '/blocs/featured_bloc.dart';
 import '/blocs/popular_places_bloc.dart';
@@ -21,6 +22,7 @@ import '/widgets/recommended_places.dart';
 import '/widgets/special_state1.dart';
 import '/widgets/special_state2.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
 class Explore extends StatefulWidget {
   Explore({Key? key}) : super(key: key);
@@ -29,27 +31,18 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
-
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration(milliseconds: 0)).then((_) {
-
       context.read<FeaturedBloc>().getData();
       context.read<PopularPlacesBloc>().getData();
       context.read<RecentPlacesBloc>().getData();
       context.read<SpecialStateOneBloc>().getData();
       context.read<SpecialStateTwoBloc>().getData();
       context.read<RecommandedPlacesBloc>().getData();
-
-
-
-
     });
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +51,7 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
         backgroundColor: Colors.white,
         body: SafeArea(
           child: RefreshIndicator(
-            onRefresh: () async{
+            onRefresh: () async {
               context.read<FeaturedBloc>().onRefresh();
               context.read<PopularPlacesBloc>().onRefresh(mounted);
               context.read<RecentPlacesBloc>().onRefresh(mounted);
@@ -69,9 +62,16 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  Header(),
+                  ClipPath(
+                    clipper: WaveClipperTwo(flip: true),
+                    child: Container(
+                      height: 210,
+                      width: 500,
+                      color: Colors.blue[50],
+                      child: Header(),
+                    ),
+                  ),
                   Featured(),
-
                   PopularPlaces(),
                   RecentPlaces(),
                   SpecialStateOne(),
@@ -81,16 +81,12 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
               ),
             ),
           ),
-        )
-    );
+        ));
   }
 
   @override
   bool get wantKeepAlive => true;
 }
-
-
-
 
 class Header extends StatelessWidget {
   const Header({Key? key}) : super(key: key);
@@ -113,14 +109,14 @@ class Header extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w900,
-                        color: Colors.grey[800]),
+                        color: Colors.blue,)
                   ),
                   Text(
                     'explore country',
                     style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w500,
-                        color: Colors.grey[600]),
+                        color: Theme.of(context).shadowColor),
                   ).tr()
                 ],
               ),
@@ -128,24 +124,30 @@ class Header extends StatelessWidget {
               InkWell(
                 child: sb.imageUrl == null || sb.isSignedIn == false
                     ? Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(Icons.person, size: 28),
-                )
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(Icons.person, size: 28),
+                      )
                     : Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: CachedNetworkImageProvider(sb.imageUrl),
-                          fit: BoxFit.cover)),
-                ),
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.blueAccent.withOpacity(0.7),
+                                  blurRadius: 5,
+                                  offset: Offset(2, 2))
+                            ],
+                            image: DecorationImage(
+                                image: CachedNetworkImageProvider(sb.imageUrl),
+                                fit: BoxFit.cover)),
+                      ),
                 onTap: () {
                   nextScreen(context, ProfilePage());
                 },
@@ -164,7 +166,7 @@ class Header extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: Colors.grey[100],
-                border: Border.all(color: Colors.grey, width: 0.5),
+                border: Border.all(color: Colors.blueAccent, width: 0.5),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Padding(
@@ -173,7 +175,7 @@ class Header extends StatelessWidget {
                   children: <Widget>[
                     Icon(
                       Icons.search,
-                      color: Colors.grey[600],
+                      color: Colors.blueAccent,
                       size: 20,
                     ),
                     SizedBox(
@@ -181,7 +183,7 @@ class Header extends StatelessWidget {
                     ),
                     Text(
                       'search places',
-                      style: TextStyle(fontSize: 15, color: Colors.grey[700]),
+                      style: TextStyle(fontSize: 15, color: Colors.blueAccent),
                     ).tr(),
                   ],
                 ),
@@ -197,8 +199,6 @@ class Header extends StatelessWidget {
     );
   }
 }
-
-
 
 class CustomAppBar extends StatelessWidget {
   const CustomAppBar({Key? key}) : super(key: key);
@@ -234,7 +234,7 @@ class CustomAppBar extends StatelessWidget {
           Spacer(),
           IconButton(
               icon: Icon(
-               Icons.notification_add,
+                Icons.notification_add,
                 size: 20,
               ),
               onPressed: () {}),
