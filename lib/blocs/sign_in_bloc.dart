@@ -267,6 +267,7 @@ class SignInBloc extends ChangeNotifier {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     await sp.setBool('guest_user', true);
     _guestUser = true;
+    _imageUrl = defaultUserImageUrl;
     notifyListeners();
   }
 
