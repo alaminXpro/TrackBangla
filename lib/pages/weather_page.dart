@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:lottie/lottie.dart';
+import 'package:lottie/lottie.dart';
 import '/models/weather_model.dart';
 import '/blocs/weather_service.dart';
 
@@ -58,7 +58,6 @@ class _WeatherPageState extends State<WeatherPage> {
 
   @override
   Widget build(BuildContext context) {
-    var Lottie;
     return Scaffold(
       body: Center(
         child: Column(
