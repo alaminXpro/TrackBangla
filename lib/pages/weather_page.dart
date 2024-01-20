@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-//import 'package:lottie/lottie.dart';
-import '../models/weather_model.dart';
-import '../blocs/weather_service.dart';
+import 'package:lottie/lottie.dart';
+import '/models/weather_model.dart';
+import '/blocs/weather_service.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({Key? key}) : super(key: key);
@@ -13,8 +13,6 @@ class WeatherPage extends StatefulWidget {
 class _WeatherPageState extends State<WeatherPage> {
   final _weatherService = WeatherService('23474f85c62938615d08f2d30942d65e');
   Weather? _weather;
-
-  get Lottie => null;
 
   Future<void> _fetchWeather() async {
     try {
@@ -60,6 +58,7 @@ class _WeatherPageState extends State<WeatherPage> {
 
   @override
   Widget build(BuildContext context) {
+    var Lottie;
     return Scaffold(
       body: Center(
         child: Column(
