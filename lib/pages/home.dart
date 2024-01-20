@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:trackbangla/pages/weather_page.dart';
 import '/blocs/notification_bloc.dart';
 import '/pages/blogs.dart';
 import '/pages/bookmark.dart';
@@ -83,6 +84,7 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           Explore(),
           StatesPage(),
+          WeatherPage(),
           BlogPage(),
           BookmarkPage(),
           ProfilePage(),
