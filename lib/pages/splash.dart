@@ -8,6 +8,7 @@ import '/pages/sign_in.dart';
 import '/core/utils/next_screen.dart';
 
 
+
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
@@ -40,16 +41,11 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin{
   }
 
 
-
-
   gotoSignInPage (){
     nextScreenReplace(context, SignInPage(tag: '',));
   }
 
 
-
-
-  
 
   @override
   void initState() {
@@ -64,20 +60,11 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin{
 
 
 
-
-
-
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
-
-
-
-
-
-
 
 
 
@@ -98,3 +85,6 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin{
     ));
   }
 }
+
+
+
