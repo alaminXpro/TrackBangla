@@ -59,6 +59,14 @@ dependencies:
   cloud_firestore: ^4.13.6
   permission_handler: ^11.2.0
   flutter_custom_clippers: ^2.1.0
+  flutter_chat_ui: ^1.6.10
+  file_picker: ^6.1.1
+  flutter_chat_types: ^3.6.2
+  mime: ^1.0.4
+  open_filex: ^4.3.4
+  path_provider: ^2.1.2
+  uuid: ^4.3.3
+  flutter_firebase_chat_core: ^1.6.7
 
 dev_dependencies:
   flutter_test:
