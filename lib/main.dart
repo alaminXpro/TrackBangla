@@ -21,24 +21,21 @@ import 'package:trackbangla/firebase_options.dart';
 import 'package:trackbangla/router/app_routes.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
-import 'package:trackbangla/widgets/other_places.dart';
-
+//import 'package:trackbangla/widgets/other_places.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(
-      EasyLocalization(
-        supportedLocales: [Locale('en'), Locale('es')],
-        path: 'assets/translations',
-        fallbackLocale: Locale('en'),
-        startLocale: Locale('en'),
-        useOnlyLangCode: true,
-        child: MyApp(),
-      )
-  );
+  runApp(EasyLocalization(
+    supportedLocales: [Locale('en'), Locale('es')],
+    path: 'assets/translations',
+    fallbackLocale: Locale('en'),
+    startLocale: Locale('en'),
+    useOnlyLangCode: true,
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -47,26 +44,49 @@ class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
+
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<BlogBloc>( create: (context) => BlogBloc(),),
-        ChangeNotifierProvider<InternetBloc>(create: (context) => InternetBloc(),),
-        ChangeNotifierProvider<SignInBloc>(create: (context) => SignInBloc(),),
-        ChangeNotifierProvider<CommentsBloc>(create: (context) => CommentsBloc(),),
-        ChangeNotifierProvider<BookmarkBloc>(create: (context) => BookmarkBloc(),),
-        ChangeNotifierProvider<PopularPlacesBloc>(create: (context) => PopularPlacesBloc(),),
-        ChangeNotifierProvider<RecentPlacesBloc>(create: (context) => RecentPlacesBloc(),),
-        ChangeNotifierProvider<RecommandedPlacesBloc>(create: (context) => RecommandedPlacesBloc(),),
-        ChangeNotifierProvider<FeaturedBloc>(create: (context) => FeaturedBloc(),),
+        ChangeNotifierProvider<BlogBloc>(
+          create: (context) => BlogBloc(),
+        ),
+        ChangeNotifierProvider<InternetBloc>(
+          create: (context) => InternetBloc(),
+        ),
+        ChangeNotifierProvider<SignInBloc>(
+          create: (context) => SignInBloc(),
+        ),
+        ChangeNotifierProvider<CommentsBloc>(
+          create: (context) => CommentsBloc(),
+        ),
+        ChangeNotifierProvider<BookmarkBloc>(
+          create: (context) => BookmarkBloc(),
+        ),
+        ChangeNotifierProvider<PopularPlacesBloc>(
+          create: (context) => PopularPlacesBloc(),
+        ),
+        ChangeNotifierProvider<RecentPlacesBloc>(
+          create: (context) => RecentPlacesBloc(),
+        ),
+        ChangeNotifierProvider<RecommandedPlacesBloc>(
+          create: (context) => RecommandedPlacesBloc(),
+        ),
+        ChangeNotifierProvider<FeaturedBloc>(
+          create: (context) => FeaturedBloc(),
+        ),
         ChangeNotifierProvider<SearchBloc>(create: (context) => SearchBloc()),
-        ChangeNotifierProvider<NotificationBloc>(create: (context) => NotificationBloc()),
+        ChangeNotifierProvider<NotificationBloc>(
+            create: (context) => NotificationBloc()),
         ChangeNotifierProvider<StateBloc>(create: (context) => StateBloc()),
-        ChangeNotifierProvider<SpecialStateOneBloc>(create: (context) => SpecialStateOneBloc()),
-        ChangeNotifierProvider<SpecialStateTwoBloc>(create: (context) => SpecialStateTwoBloc()),
-        ChangeNotifierProvider<OtherPlacesBloc>(create: (context) => OtherPlacesBloc()),
+        ChangeNotifierProvider<SpecialStateOneBloc>(
+            create: (context) => SpecialStateOneBloc()),
+        ChangeNotifierProvider<SpecialStateTwoBloc>(
+            create: (context) => SpecialStateTwoBloc()),
+        ChangeNotifierProvider<OtherPlacesBloc>(
+            create: (context) => OtherPlacesBloc()),
       ],
       child: GetMaterialApp(
         supportedLocales: context.supportedLocales,
