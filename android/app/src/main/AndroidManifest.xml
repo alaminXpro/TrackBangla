@@ -1,4 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    es-permission android:name = "android.permission.ACCESS_FINE_LOCATION" />
+    es-permission android:name = "android.permission.ACCESS_COARSE_LOCATION" />
     <application
         android:label="trackbangla"
         android:name="${applicationName}"

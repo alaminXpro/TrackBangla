@@ -39,6 +39,7 @@ dependencies:
   flutter_widget_from_html: ^0.14.10+1
   flutter_polyline_points: ^2.0.0
   geolocator: ^10.1.0
+  geocoding: ^2.0.0
   google_maps_flutter: ^2.5.1
   html: ^0.15.4
   html_unescape: ^2.0.0
@@ -47,6 +48,7 @@ dependencies:
   intl: ^0.18.1
   launch_review: ^3.0.1
   line_icons: ^2.0.3
+  lottie: ^2.0.0
   package_info_plus: ^5.0.1
   provider: ^6.1.1
   share_plus: ^7.2.1
