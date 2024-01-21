@@ -1,9 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:trackbangla/blocs/chat.dart';
 import 'package:trackbangla/core/utils/dialog.dart';
+import 'package:trackbangla/pages/chat.dart';
+import 'package:trackbangla/pages/rooms.dart';
 import '/blocs/notification_bloc.dart';
 import '/blocs/sign_in_bloc.dart';
 import '/core/config/config.dart';
@@ -106,9 +110,9 @@ class _ProfilePageState extends State<ProfilePage>
                 Icons.chevron_right,
                 size: 20,
               ),
-              onTap: () async => await launchUrl(
-                  'mailto:${Config().supportEmail}?subject=About ${Config().appName} App&body='
-                      as Uri),
+              onTap: () {
+                // nextScreen(context, ChatPage());
+              },
             ),
             Divider(
               height: 5,
@@ -352,6 +356,27 @@ class UserUI extends StatelessWidget {
             onTap: () {
               nextScreen(
                   context, EditProfile(name: sb.name, imageUrl: sb.imageUrl));
+            }),
+        Divider(
+          height: 5,
+        ),
+        ListTile(
+            title: Text('Chat Room').tr(),
+            leading: Container(
+              height: 30,
+              width: 30,
+              decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(5)),
+              child: Icon(Icons.chat, size: 20, color: Colors.white),
+            ),
+            trailing: Icon(
+              Icons.chevron_right,
+              size: 20,
+            ),
+            onTap: () {
+              nextScreen(
+                  context, RoomsPage());
             }),
         Divider(
           height: 5,
