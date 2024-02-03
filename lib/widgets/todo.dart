@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '/models/place.dart';
 import '/pages/comments.dart';
 //import '/pages/guide.dart';
@@ -11,6 +12,33 @@ import 'package:easy_localization/easy_localization.dart';
 class TodoWidget extends StatelessWidget {
   final Place placeData;
   const TodoWidget({Key? key, required this.placeData}) : super(key: key);
+  void openGoogleMaps({required Place placeData, required String placeType}) async {
+    String query;
+
+    switch (placeType) {
+      case 'restaurant':
+        query = 'Restaurants near';
+        break;
+      case 'hotel':
+        query = 'Hotels near';
+        break;
+      case 'transport':
+        query = 'nearby transport';
+        break;
+      default:
+        query = '';
+        break;
+    }
+
+    final String googleMapsUrl =
+      'https://www.google.com/maps/search/$query+${placeData.name}/';
+    if (await canLaunchUrlString(googleMapsUrl)) {
+      await launchUrlString(googleMapsUrl);
+    } else {
+      // Use a logging framework instead of invoking 'print' in production code
+      debugPrint('Could not launch $googleMapsUrl');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +101,7 @@ class TodoWidget extends StatelessWidget {
                           ),
 
                           Text(
-                            'travel guide',
+                            'Directions',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
@@ -81,8 +109,13 @@ class TodoWidget extends StatelessWidget {
                           ).tr(),
 
                         ])),
-                onTap: () {
+                onTap: () async {
                   //nextScreen(context, GuidePage(d: placeData))
+                  final String googleMapsUrl =
+                    'https://www.google.com/maps/dir//${placeData.name}/';
+                  if(await canLaunchUrlString(googleMapsUrl)){
+                    await launchUrlString(googleMapsUrl);
+                  }
                 },
               ),
               InkWell(
@@ -123,6 +156,7 @@ class TodoWidget extends StatelessWidget {
                         ])),
                 onTap: () {
                    //nextScreen(context, HotelPage(placeData: placeData,))
+                   openGoogleMaps(placeData: placeData, placeType: 'hotel');
                 },
               ),
               InkWell(
@@ -164,6 +198,7 @@ class TodoWidget extends StatelessWidget {
                         ])),
                 onTap: () {
                   //nextScreen(context, RestaurantPage(placeData: placeData,))
+                  openGoogleMaps(placeData: placeData, placeType: 'restaurant');
                 },
               ),
               InkWell(

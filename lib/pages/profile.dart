@@ -16,7 +16,7 @@ import '/pages/notifications.dart';
 import '/pages/sign_in.dart';
 import '/core/utils/next_screen.dart';
 import '/widgets/language.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -41,6 +41,32 @@ class _ProfilePageState extends State<ProfilePage>
               width: 30,
             ),
             applicationVersion: sb.appVersion,
+          );
+        });
+  }
+
+  openAboutUs() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('About Us').tr(),
+            content: const Row(children: [
+              Text(
+                'Team Members:\n'
+                '1. MD. AL AMIN (Chief Developer)\n'
+                '2. Harique Rahman Jaif\n'
+                '3. Nahid Hasan\n'
+                '4. Julker Nayeen Karim',
+                style: TextStyle(fontSize: 16),
+              ),
+              
+            ]),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Close').tr())
+            ],
           );
         });
   }
@@ -110,8 +136,11 @@ class _ProfilePageState extends State<ProfilePage>
                 Icons.chevron_right,
                 size: 20,
               ),
-              onTap: () {
-                // nextScreen(context, ChatPage());
+              onTap: () async {
+                 if (await canLaunchUrlString(
+                    "https://github.com/alaminXpro/trackbangla/blob/main/README.md")) {
+                  launchUrlString("https://github.com/alaminXpro/trackbangla/blob/main/README.md");
+                }
               },
             ),
             Divider(
@@ -190,9 +219,9 @@ class _ProfilePageState extends State<ProfilePage>
                 size: 20,
               ),
               onTap: () async {
-                if (await canLaunchUrl(Config().privacyPolicyUrl as Uri)) {
-                  launchUrl(Config().privacyPolicyUrl as Uri);
-                }
+                // if (await canLaunchUrl(Config().privacyPolicyUrl as Uri)) {
+                //   launchUrl(Config().privacyPolicyUrl as Uri);
+                // }
               },
             ),
             Divider(
@@ -213,9 +242,7 @@ class _ProfilePageState extends State<ProfilePage>
                 size: 20,
               ),
               onTap: () async {
-                if (await canLaunchUrl(Config().ourWebsiteUrl as Uri)) {
-                  launchUrl(Config().ourWebsiteUrl as Uri);
-                }
+                openAboutUs();
               },
             ),
             Divider(
@@ -223,23 +250,22 @@ class _ProfilePageState extends State<ProfilePage>
             ),
             ListTile(
               title: Text('Admin').tr(),
-              subtitle: Text('Admin subtitle').tr(),
               leading: Container(
                 height: 30,
                 width: 30,
                 decoration: BoxDecoration(
                     color: Colors.blueGrey,
                     borderRadius: BorderRadius.circular(5)),
-                child: Icon(Icons.shopping_cart, size: 20, color: Colors.white),
+                child: Icon(Icons.source, size: 20, color: Colors.white),
               ),
               trailing: Icon(
                 Icons.chevron_right,
                 size: 20,
               ),
               onTap: () async {
-                if (await canLaunchUrl(
-                    'https://linkedin.com/in/alaminxpro/' as Uri)) {
-                  launchUrl('https://www.linkedin.com/in/alaminxpro/' as Uri);
+                if (await canLaunchUrlString(
+                    "https://www.linkedin.com/in/alaminxpro/")) {
+                  launchUrlString("https://www.linkedin.com/in/alaminxpro/");
                 }
               },
             ),
@@ -366,8 +392,7 @@ class UserUI extends StatelessWidget {
               height: 30,
               width: 30,
               decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(5)),
+                  color: Colors.blue, borderRadius: BorderRadius.circular(5)),
               child: Icon(Icons.chat, size: 20, color: Colors.white),
             ),
             trailing: Icon(
@@ -375,8 +400,7 @@ class UserUI extends StatelessWidget {
               size: 20,
             ),
             onTap: () {
-              nextScreen(
-                  context, RoomsPage());
+              nextScreen(context, RoomsPage());
             }),
         Divider(
           height: 5,

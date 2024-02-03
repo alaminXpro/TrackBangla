@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +22,7 @@ class _RoomsPageState extends State<RoomsPage> {
   bool _error = false;
   bool _initialized = false;
   User? _user;
+  late String other;
 
   @override
   void initState() {
@@ -49,39 +51,46 @@ class _RoomsPageState extends State<RoomsPage> {
     await FirebaseAuth.instance.signOut();
   }
 
-  Widget _buildAvatar(types.Room room) {
-    var color = Colors.transparent;
-
+  Future<String?> getUserName(types.Room room) async {
+    late String otherUserUid;
     if (room.type == types.RoomType.direct) {
       try {
         final otherUser = room.users.firstWhere(
           (u) => u.id != _user!.uid,
         );
 
-        color = getUserAvatarNameColor(otherUser);
+        otherUserUid = otherUser.id;
       } catch (e) {
         // Do nothing if other user is not found.
       }
     }
+    final userDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(otherUserUid)
+        .get();
+    final name = userDoc.data()?['name'] as String?;
+    return name;
+  }
 
-    final hasImage = room.imageUrl != null;
-    // final name = room.name ?? 'Chat Room';
-    const name = "Chat Room";
+  Future<String?> getAvater(types.Room room) async {
+    late String otherUserUid;
+    if (room.type == types.RoomType.direct) {
+      try {
+        final otherUser = room.users.firstWhere(
+          (u) => u.id != _user!.uid,
+        );
 
-    return Container(
-      margin: const EdgeInsets.only(right: 16),
-      child: CircleAvatar(
-        backgroundColor: hasImage ? Colors.transparent : color,
-        backgroundImage: hasImage ? NetworkImage(room.imageUrl!) : null,
-        radius: 20,
-        child: !hasImage
-            ? Text(
-                name.isEmpty ? '' : name[0].toUpperCase(),
-                style: const TextStyle(color: Colors.white),
-              )
-            : null,
-      ),
-    );
+        otherUserUid = otherUser.id;
+      } catch (e) {
+        // Do nothing if other user is not found.
+      }
+    }
+    final userDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(otherUserUid)
+        .get();
+    final avater = userDoc.data()?['image url'] as String?;
+    return avater;
   }
 
   @override
@@ -96,12 +105,12 @@ class _RoomsPageState extends State<RoomsPage> {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text('Rooms'),
-          centerTitle: false,
-          actions: [
-            IconButton(
-                icon: Icon(Icons.add, size: 20),
-                onPressed: _user == null
+        title: Text('Rooms'),
+        centerTitle: false,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add, size: 20),
+            onPressed: _user == null
                 ? null
                 : () {
                     // Navigator.of(context).push(
@@ -113,8 +122,8 @@ class _RoomsPageState extends State<RoomsPage> {
                     nextScreen(context, const UsersPage());
                   },
           ),
-          ],
-        ),
+        ],
+      ),
       body: _user == null
           ? Container(
               alignment: Alignment.center,
@@ -186,9 +195,39 @@ class _RoomsPageState extends State<RoomsPage> {
                         ),
                         child: Row(
                           children: [
-                            _buildAvatar(room),
-                            // Text(room.name ?? ''),
-                            Text("Chat Room")
+                            FutureBuilder<String?>(
+                              future: getAvater(room),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const CircularProgressIndicator();
+                                }
+                                if (snapshot.hasError) {
+                                  return const Text('Error');
+                                }
+                                return Container(
+                                    margin: const EdgeInsets.only(right: 16),
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.transparent,
+                                      backgroundImage:
+                                          NetworkImage(snapshot.data ?? ''),
+                                      radius: 20,
+                                    ));
+                              },
+                            ),
+                            FutureBuilder<String?>(
+                              future: getUserName(room),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const CircularProgressIndicator();
+                                }
+                                if (snapshot.hasError) {
+                                  return const Text('Error');
+                                }
+                                return Text(snapshot.data ?? '');
+                              },
+                            ),
                           ],
                         ),
                       ),
