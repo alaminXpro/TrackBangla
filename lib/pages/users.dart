@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:get/get.dart';
 import 'package:trackbangla/core/utils/chat.dart';
 import 'package:trackbangla/core/utils/next_screen.dart';
 
@@ -47,16 +48,8 @@ class UsersPage extends StatelessWidget {
 
   void _handlePressed(types.User otherUser, BuildContext context) async {
     //final navigator = Navigator.of(context);
+    Get.snackbar('Working', 'Please wait...');
     final room = await FirebaseChatCore.instance.createRoom(otherUser);
-
-    // navigator.pop();
-    // await navigator.push(
-    //   MaterialPageRoute(
-    //     builder: (context) => ChatPage(
-    //       room: room,
-    //     ),
-    //   ),
-    // );
     nextScreenReplace(context, ChatPage(room: room));
   }
 

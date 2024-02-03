@@ -199,7 +199,7 @@ class _ChatPageState extends State<ChatPage> {
       _isAttachmentUploading = uploading;
     });
   }
-
+  
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
