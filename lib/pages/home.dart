@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           Explore(),
           StatesPage(),
-          WeatherPage(),
+          //WeatherPage(),
           BlogPage(),
           BookmarkPage(),
           ProfilePage(),

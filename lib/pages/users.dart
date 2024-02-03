@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -9,6 +10,19 @@ import 'chat.dart';
 
 class UsersPage extends StatelessWidget {
   const UsersPage({super.key});
+  Future<String?> getUserName(String uid) async {
+    final userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    final name = userDoc.data()?['name'] as String?;
+    return name;
+  }
+
+  Future<String?> getAvater(String uid) async {
+    final userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    final url = userDoc.data()?['image url'] as String?;
+    return url;
+  }
 
   Widget _buildAvatar(types.User user) {
     final color = getUserAvatarNameColor(user);
@@ -70,7 +84,6 @@ class UsersPage extends StatelessWidget {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 final user = snapshot.data![index];
-
                 return GestureDetector(
                   onTap: () {
                     _handlePressed(user, context);
@@ -82,8 +95,45 @@ class UsersPage extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        _buildAvatar(user),
-                        Text(user.id),
+                        FutureBuilder<String?>(
+                          future: getAvater(user.id),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              final url = snapshot.data ?? '';
+                              return Container(
+                                margin: const EdgeInsets.only(right: 16),
+                                child: CircleAvatar(
+                                  backgroundColor:
+                                  Colors.transparent,
+                                  backgroundImage:
+                                    NetworkImage(url)
+                                    ,
+                                  radius: 20,
+                                  
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                        FutureBuilder<String?>(
+                          future: getUserName(user.id),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              final name = snapshot.data ?? '';
+                              return Text(name);
+                            }
+                          },
+                        ),
                       ],
                     ),
                   ),
