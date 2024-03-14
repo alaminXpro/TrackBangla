@@ -200,8 +200,7 @@ class _CommentsPageState extends State<CommentsPage> {
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
-                      ),
-                      primary: Colors.deepPurpleAccent,
+                      ), backgroundColor: Colors.deepPurpleAccent,
                     ),
                     onPressed: () => Navigator.pop(context),
                     child: Text(
